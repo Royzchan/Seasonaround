@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController_2D : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PlayerController_2D : MonoBehaviour
     [SerializeField, Header("プレイヤーのジャンプ力")]
     private float _jumpPower = 5.0f;
 
+    [SerializeField, Header("プレイヤーのHP")]
+    private int _hp;
+
     //入力の値を保存する変数
     private float _inputValueX = 0;
 
@@ -21,6 +25,29 @@ public class PlayerController_2D : MonoBehaviour
     [SerializeField, Header("ジャンプできる回数")]
     private int _canJumpNum = 1;
 
+    [Header("～インプット関係～")]
+    [SerializeField, Header("横移動のキーコン")]
+    private InputAction _moveXAction;
+
+    [SerializeField, Header("ジャンプのキーコン")]
+    private InputAction _jumpAction;
+
+    // 有効化
+    private void OnEnable()
+    {
+        // InputActionを有効化
+        _moveXAction?.Enable();
+        _jumpAction?.Enable();
+    }
+
+    // 無効化
+    private void OnDisable()
+    {
+        // 自身が無効化されるタイミングなどで
+        _moveXAction?.Disable();
+        _jumpAction?.Disable();
+    }
+
     void Start()
     {
         //リジッドボディを取得
@@ -29,27 +56,12 @@ public class PlayerController_2D : MonoBehaviour
 
     void Update()
     {
-        //右移動のキーが押されている間
-        if (Input.GetKey(KeyCode.D))
-        {
-            //横移動の入力保存の数値を1
-            _inputValueX = 1.0f;
-        }
-        //左移動のキーが押されている間
-        else if (Input.GetKey(KeyCode.A))
-        {
-            //横移動の入力の数値を-1
-            _inputValueX = -1.0f;
-        }
-        //移動関係のキーが押されていない場合
-        else
-        {
-            //横移動の入力の数値を0
-            _inputValueX = 0f;
-        }
 
-        //ジャンプキーが押されたら
-        if (Input.GetKeyDown(KeyCode.Space))
+        //X軸のキー入力を保存
+        _inputValueX = _moveXAction.ReadValue<float>();
+
+        //ジャンプのボタンが押されたら
+        if(_jumpAction.WasPressedThisFrame())
         {
             //ジャンプする
             if (_jumpNum < _canJumpNum)
@@ -72,5 +84,12 @@ public class PlayerController_2D : MonoBehaviour
         {
             _jumpNum = 0;
         }
+    }
+
+    //ダメージ
+    public void HitDamage()
+    {
+        //HPを減らす
+        _hp--;
     }
 }
