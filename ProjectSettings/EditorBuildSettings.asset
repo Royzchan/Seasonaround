@@ -4,5 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SelectScene.unity
+    guid: a8f8a89a5faa5ac4f99529c709270031
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: 4e9b8de05c9044f488cbacba8a2c9362
+  - enabled: 1
+    path: Assets/Scenes/SeasonScenes/Spring.unity
+    guid: 22f12959ab07f894fbafe264a9454823
+  - enabled: 1
+    path: Assets/Scenes/SeasonScenes/Summer.unity
+    guid: dea20ebcc84e6ee4e98f8d2833d21c7e
+  - enabled: 1
+    path: Assets/Scenes/SeasonScenes/Autumn.unity
+    guid: 87907b57970477748a68331a41464e16
+  - enabled: 1
+    path: Assets/Scenes/SeasonScenes/Winter.unity
+    guid: e5bfb31745f5f5a42a4616e304d323a0
   m_configObjects: {}
