@@ -35,10 +35,11 @@ public class RushEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float _dis = Vector3.Distance(this.transform.position, player.transform.position);
-
-        // 指定の距離以内なら突進を開始
-        Rush(_dis);
+        if (player != null)
+        {
+            float _dis = Vector3.Distance(this.transform.position, player.transform.position);
+            Rush(_dis);
+        }
     }
 
     // 突進関数

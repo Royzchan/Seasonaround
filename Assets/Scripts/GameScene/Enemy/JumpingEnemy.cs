@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class JumpingEnemy : MonoBehaviour
@@ -30,8 +31,15 @@ public class JumpingEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float dis = Vector3.Distance(this.transform.position, player.transform.position);
+        if(player != null)
+        {
+            float _dis = Vector3.Distance(this.transform.position, player.transform.position);
+            Jump(_dis);
+        }
+    }
 
+    void Jump(float dis)
+    {
         if (dis <= _distance)
         {
             //ƒWƒƒƒ“ƒv‚·‚é

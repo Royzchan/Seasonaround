@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7121439785545316881}
   m_Layer: 0
   m_Name: Player_2D
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _jumpPower: 5
+  _hp: 0
   _canJumpNum: 1
   _moveXAction:
     m_Name: Move X

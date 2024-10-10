@@ -33,14 +33,17 @@ public class BulletEnemy : MonoBehaviour
     {
         _timeElapsed += Time.deltaTime;  // 時間をカウントする
 
-        // プレイヤーと敵の距離測定用
-        float _dis = Vector3.Distance(this.transform.position, player.transform.position);
+        if (player != null)
+        {
+            // プレイヤーと敵の距離測定用
+            float _dis = Vector3.Distance(this.transform.position, player.transform.position);
 
-        // プレイヤーと敵の位置関係用
-        float _compare = this.transform.position.x - player.transform.position.x;
+            // プレイヤーと敵の位置関係用
+            float _compare = this.transform.position.x - player.transform.position.x;
 
-        LeftorRight(_compare);
-        Shoot(_dis);
+            LeftorRight(_compare);
+            Shoot(_dis);
+        }
     }
 
     // 撃つ(弾のプレハブ生成用)
