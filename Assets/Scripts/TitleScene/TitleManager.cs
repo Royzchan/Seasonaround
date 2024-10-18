@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TitleManager : MonoBehaviour
 {
@@ -20,6 +21,29 @@ public class TitleManager : MonoBehaviour
     [SerializeField]
     private GameObject[] texts;
 
+    [SerializeField,Header("上方向のキーコン")]
+    private InputAction _upAction;
+
+    [SerializeField, Header("下方向のキーコン")]
+    private InputAction _downAction;
+
+    [SerializeField, Header("選択のキーコン")]
+    private InputAction _selectAction;
+
+    private void OnEnable()
+    {
+        _upAction?.Enable();
+        _downAction?.Enable();
+        _selectAction?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _upAction?.Disable();
+        _downAction?.Disable();
+        _selectAction?.Disable();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +54,7 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (_upAction.WasPressedThisFrame())
         {
             _nowSelectMode--;
             if (_nowSelectMode < 0)
@@ -42,7 +66,7 @@ public class TitleManager : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (_downAction.WasPressedThisFrame())
         {
             _nowSelectMode++;
             if (_nowSelectMode > Mode.Operat)
@@ -52,7 +76,7 @@ public class TitleManager : MonoBehaviour
             _arrowImage.gameObject.transform.position = texts[(int)_nowSelectMode].transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (_selectAction.WasPressedThisFrame())
         {
             switch (_nowSelectMode)
             {
@@ -69,7 +93,5 @@ public class TitleManager : MonoBehaviour
 
             }
         }
-
-
     }
 }
