@@ -131,8 +131,12 @@ MonoBehaviour:
   _speed: 5
   _jumpPower: 5
   _hp: 0
+  _maxStamina: 100
+  _flySpeed: 5
   _canJumpNum: 1
   _windLatePower: 0
+  _stageAnimals: 00000000000000000000000000000000
+  _animalModels: []
   _moveXAction:
     m_Name: Move X
     m_Type: 0
@@ -182,6 +186,68 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Jump
       m_Flags: 0
+    m_Flags: 0
+  _animalAbilityAction:
+    m_Name: Animal Ability
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 4fed0d1a-b912-43ab-9a79-cb867e1d5023
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 34d9d3aa-1b04-40eb-a5f5-9e69c2a34b4d
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Animal Ability
+      m_Flags: 0
+    m_Flags: 0
+  _changeAction:
+    m_Name: Change
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9d3d30f6-ef68-400e-8994-95cdefde2990
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _cursorUpAction:
+    m_Name: Cursor Up
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c02263b8-d310-49d3-a114-f3bfd7212c6c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _cursorRightAction:
+    m_Name: Cursor Right
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7fc98432-7fcf-460e-8f25-9f894bd0a57a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _cursorDownAction:
+    m_Name: Cursor Down
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 20924183-627c-44c7-97cb-32bf26c16b24
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _cursorLeftAction:
+    m_Name: Cursor Left
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 250b6bae-9f74-463b-bffd-8a6474fa72c4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
     m_Flags: 0
 --- !u!1001 &272021769176689314
 PrefabInstance:

@@ -25,7 +25,7 @@ public class PlayerController_2D : MonoBehaviour
     private Rigidbody _rb;
 
     //現在なんの動物かどうか
-    private Animal _nowAnimal = Animal.Normal;
+    private Animal _nowAnimal = Animal.Squid;
 
     [SerializeField, Header("プレイヤーの移動速度")]
     private float _speed = 5.0f;
@@ -35,6 +35,16 @@ public class PlayerController_2D : MonoBehaviour
 
     [SerializeField, Header("プレイヤーのHP")]
     private int _hp;
+
+    public int HP { get { return _hp; } }
+
+    [SerializeField, Header("スタミナの最大値")]
+    private float _maxStamina = 100;
+
+    private float _nowStamina;
+
+    [SerializeField, Header("飛ぶスピード")]
+    private float _flySpeed = 5.0f;
 
     //入力の値を保存する変数
     private float _inputValueX = 0;
@@ -48,12 +58,28 @@ public class PlayerController_2D : MonoBehaviour
     //ジャンプ中かどうかの判定
     private bool _jumpNow = false;
 
+    //飛んでいるかどうか
+    private bool _isFly = false;
+
+    //飛べるかどうか
+    private bool _canFly = true;
+
+    public bool ISFly { get { return _isFly; } }
+
     //触れた敵を倒せるかどうか
     private bool _canDefeatEnemy = false;
 
     [SerializeField, Header("風力減速(掛ける量)"), Range(0.9f, 0.99f)]
     private float _windLatePower;
     private Vector3 _windPower;
+
+    //当たったことのある(変身可能な)動物
+    private List<Animal> _hitAnimals = new();
+
+    [SerializeField, Header("このステージで変身可能な動物(キー割り当て   0:↑,1:→,2:↓,3:←)")]
+    private Animal[] _stageAnimals = new Animal[4];
+    //変身キーが押されている
+    private bool _canChangeAnimal = false;
 
     [SerializeField, Header("動物のモデル")]
     private GameObject[] _animalModels;
@@ -65,12 +91,33 @@ public class PlayerController_2D : MonoBehaviour
     [SerializeField, Header("ジャンプのキーコン")]
     private InputAction _jumpAction;
 
+    [SerializeField, Header("固有能力のキーコン")]
+    private InputAction _animalAbilityAction;
+
+    [SerializeField, Header("変身用のキーコン")]
+    private InputAction _changeAction;
+
+    [SerializeField, Header("方向入力のキーコン")]
+    private InputAction _cursorUpAction;
+    [SerializeField]
+    private InputAction _cursorRightAction;
+    [SerializeField]
+    private InputAction _cursorDownAction;
+    [SerializeField]
+    private InputAction _cursorLeftAction;
+
     // 有効化
     private void OnEnable()
     {
         // InputActionを有効化
         _moveXAction?.Enable();
         _jumpAction?.Enable();
+        _animalAbilityAction?.Enable();
+        _changeAction?.Enable();
+        _cursorUpAction?.Enable();
+        _cursorRightAction?.Enable();
+        _cursorDownAction?.Enable();
+        _cursorLeftAction?.Enable();
     }
 
     // 無効化
@@ -79,12 +126,21 @@ public class PlayerController_2D : MonoBehaviour
         // 自身が無効化されるタイミングなどで
         _moveXAction?.Disable();
         _jumpAction?.Disable();
+        _animalAbilityAction?.Disable();
+        _changeAction?.Disable();
+        _cursorUpAction?.Disable();
+        _cursorRightAction?.Disable();
+        _cursorDownAction?.Disable();
+        _cursorLeftAction?.Disable();
     }
 
     void Start()
     {
         //リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
+
+        //スタミナを最大値をセット
+        _nowStamina = _maxStamina;
     }
 
     void Update()
@@ -106,6 +162,13 @@ public class PlayerController_2D : MonoBehaviour
                 //ジャンプ中の判定をtrueに
                 _jumpNow = true;
             }
+        }
+
+        //動物の固有能力のボタンが押されていたら
+        if (_animalAbilityAction.IsPressed())
+        {
+            //動物の固有能力を使う
+            AnimalAction();
         }
 
         //ジャンプ中だったら
@@ -140,6 +203,71 @@ public class PlayerController_2D : MonoBehaviour
             }
             //Debug.DrawRay(ray.origin, ray.direction, UnityEngine.Color.red, 5.0f);
         }
+
+        if (_canChangeAnimal)
+        {
+            //↑
+            if (_cursorUpAction.WasReleasedThisFrame())
+            {
+                foreach (var animal in _hitAnimals)
+                {
+                    if (animal == _stageAnimals[0])
+                    {
+                        InputChangeAnimal(_stageAnimals[0]);
+                        break;
+                    }
+
+                }
+            }
+            //→
+            else if (_cursorRightAction.WasReleasedThisFrame())
+            {
+                foreach (var animal in _hitAnimals)
+                {
+                    if (animal == _stageAnimals[1])
+                    {
+                        InputChangeAnimal(_stageAnimals[1]);
+                        break;
+                    }
+
+                }
+            }
+            //↓
+            else if (_cursorDownAction.WasReleasedThisFrame())
+            {
+                foreach (var animal in _hitAnimals)
+                {
+                    if (animal == _stageAnimals[2])
+                    {
+                        InputChangeAnimal(_stageAnimals[2]);
+                        break;
+                    }
+
+                }
+            }
+            //←
+            else if (_cursorLeftAction.WasReleasedThisFrame())
+            {
+                foreach (var animal in _hitAnimals)
+                {
+                    if (animal == _stageAnimals[3])
+                    {
+                        InputChangeAnimal(_stageAnimals[3]);
+                        break;
+                    }
+                }
+            }
+        }
+        //変身ボタンを押したとき
+        if (_changeAction.WasPressedThisFrame())
+        {
+            _canChangeAnimal = true;
+        }
+        //離したとき
+        else if (_changeAction.WasReleasedThisFrame())
+        {
+            _canChangeAnimal = false;
+        }
     }
 
     private void FixedUpdate()
@@ -163,6 +291,7 @@ public class PlayerController_2D : MonoBehaviour
         {
             _jumpNum = 0;
             _jumpNow = false;
+            _isFly = false;
         }
     }
 
@@ -216,7 +345,24 @@ public class PlayerController_2D : MonoBehaviour
     //動物の固有アクション
     private void AnimalAction()
     {
+        switch (_nowAnimal)
+        {
+            //ゴリラ
+            case Animal.Colobus:
 
+                break;
+
+            //トカゲ
+            case Animal.Gecko:
+
+                break;
+
+            //雀
+            case Animal.Squid:
+                _rb.velocity = new Vector3((_speed * _inputValueX), _flySpeed, 0f);
+                _isFly = true;
+                break;
+        }
     }
 
     //動物に触れた時に返信する処理
@@ -238,11 +384,19 @@ public class PlayerController_2D : MonoBehaviour
                 _animalModels[i].SetActive(false);
             }
         }
+
+        _hitAnimals.Add(animal);
     }
 
     private void SetState()
     {
         _speed = AnimalData.animalDatas[0].Speed;
         _jumpPower = AnimalData.animalDatas[0].JumpPower;
+    }
+
+    public void InputChangeAnimal(Animal animal)
+    {
+        _nowAnimal = animal;
+        Debug.Log(_nowAnimal);
     }
 }

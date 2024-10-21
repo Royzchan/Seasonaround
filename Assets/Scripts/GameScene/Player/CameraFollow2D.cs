@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CameraFollow2D : MonoBehaviour
 {
-    [SerializeField,Header("ズーム時のスピード")]
+    [SerializeField, Header("ズーム時のスピード")]
     private float _zoomSpeed;
-    [SerializeField,Header("追従のスピード")]
+    [SerializeField, Header("追従のスピード")]
     private float _followSpeed;
 
     GameObject _player;//プレイヤー
@@ -19,13 +18,9 @@ public class CameraFollow2D : MonoBehaviour
     float _dis;//現在の距離
 
     //ズーム中かどうか
-    private bool isZoom = false;
+    private bool _isZoom = false;
 
-    // 現在速度(SmoothDampの計算のために必要)
-    private float _currentVelocity = 0;
-
-    // 目標値に到達するまでのおおよその時間[s]
-    [SerializeField] private float _smoothTime = 0.3f;
+    bool _isCameraShake = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,15 +33,7 @@ public class CameraFollow2D : MonoBehaviour
 
     private void Update()
     {
-        //ズーム（仮）
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            StartCoroutine(Zoom(3));
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            StartCoroutine(ZoomOut());
-        }
+
     }
 
     // Update is called once per frame
@@ -64,7 +51,7 @@ public class CameraFollow2D : MonoBehaviour
 
     public IEnumerator Zoom(float value)
     {
-        if (isZoom) yield break; 
+        if (_isZoom) yield break;
 
         //現在の距離を計算
         _dis = Vector3.Distance(_player.transform.position, transform.position);
@@ -79,12 +66,12 @@ public class CameraFollow2D : MonoBehaviour
         }
 
         //ズーム中に変更
-        isZoom = true;
+        _isZoom = true;
     }
 
     public IEnumerator ZoomOut()
     {
-        if (!isZoom) yield break;
+        if (!_isZoom) yield break;
 
         //現在の距離を計算
         _dis = Vector3.Distance(_player.transform.position, transform.position);
@@ -99,6 +86,41 @@ public class CameraFollow2D : MonoBehaviour
         }
 
         //ズーム中ではない状態に変更
-        isZoom = false;
+        _isZoom = false;
+    }
+
+    //カメラ揺れ（デフォルト値 : 0.25f, 0.1f）
+    IEnumerator CameraShake(float duration, float magnitude)
+    {
+        //画面揺れ中か判定
+        if (_isCameraShake) yield break;
+
+        var _beforePos = transform.localPosition;
+
+        var _beforeRot = transform.localRotation;
+
+        var _elapsed = 0f;
+
+        _isCameraShake = true;
+
+        while (_elapsed < duration)
+        {
+            var x = _beforePos.x + Random.Range(-1f, 1f) * magnitude;
+            var y = _beforePos.y + Random.Range(-1f, 1f) * magnitude;
+
+            transform.localPosition = new Vector3(x, y, _beforePos.z);
+            _elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        //画面揺れ前の位置に戻す
+        transform.localPosition = _beforePos;
+        transform.localRotation = _beforeRot;
+        _isCameraShake = false;
+    }
+    public void Shake(float duration, float magnitude)
+    {
+        StartCoroutine(CameraShake(duration, magnitude));
     }
 }
