@@ -81,6 +81,9 @@ public class PlayerController_2D : MonoBehaviour
     //変身キーが押されている
     private bool _canChangeAnimal = false;
 
+    int _selectAnimalNum = -1;
+    [SerializeField]
+    SelectUIScript _selectUI;
     [SerializeField, Header("動物のモデル")]
     private GameObject[] _animalModels;
 
@@ -207,65 +210,57 @@ public class PlayerController_2D : MonoBehaviour
         if (_canChangeAnimal)
         {
             //↑
-            if (_cursorUpAction.WasReleasedThisFrame())
+            if (_cursorUpAction.WasPressedThisFrame())
             {
-                foreach (var animal in _hitAnimals)
-                {
-                    if (animal == _stageAnimals[0])
-                    {
-                        InputChangeAnimal(_stageAnimals[0]);
-                        break;
-                    }
-
-                }
+                _selectAnimalNum = 0;
+                _selectUI.ScaleMove(_selectAnimalNum);
             }
             //→
-            else if (_cursorRightAction.WasReleasedThisFrame())
+            else if (_cursorRightAction.WasPressedThisFrame())
             {
-                foreach (var animal in _hitAnimals)
-                {
-                    if (animal == _stageAnimals[1])
-                    {
-                        InputChangeAnimal(_stageAnimals[1]);
-                        break;
-                    }
-
-                }
+                _selectAnimalNum = 1;
+                _selectUI.ScaleMove(_selectAnimalNum);
             }
             //↓
-            else if (_cursorDownAction.WasReleasedThisFrame())
+            else if (_cursorDownAction.WasPressedThisFrame())
             {
-                foreach (var animal in _hitAnimals)
-                {
-                    if (animal == _stageAnimals[2])
-                    {
-                        InputChangeAnimal(_stageAnimals[2]);
-                        break;
-                    }
-
-                }
+                _selectAnimalNum = 2;
+                _selectUI.ScaleMove(_selectAnimalNum);
             }
             //←
-            else if (_cursorLeftAction.WasReleasedThisFrame())
+            else if (_cursorLeftAction.WasPressedThisFrame())
             {
-                foreach (var animal in _hitAnimals)
-                {
-                    if (animal == _stageAnimals[3])
-                    {
-                        InputChangeAnimal(_stageAnimals[3]);
-                        break;
-                    }
-                }
+                _selectAnimalNum = 3;
+                _selectUI.ScaleMove(_selectAnimalNum);
             }
         }
         //変身ボタンを押したとき
-        if (_changeAction.WasPressedThisFrame())
+        if (_changeAction.IsPressed())
         {
             _canChangeAnimal = true;
+            _selectUI.gameObject.SetActive(true);
         }
         //離したとき
-        else if (_changeAction.WasReleasedThisFrame())
+        else if (_canChangeAnimal)
         {
+
+
+            //初期値でなければ
+            if (_selectAnimalNum != -1)
+            {
+                foreach (var animal in _hitAnimals)
+                {
+                    if (animal == _stageAnimals[_selectAnimalNum])
+                    {
+                        InputChangeAnimal(_stageAnimals[_selectAnimalNum]);
+
+                        break;
+                    }
+                }
+            }
+            _selectUI.ResetScale();
+            _selectAnimalNum = -1;
+            _selectUI.gameObject.SetActive(false);
             _canChangeAnimal = false;
         }
     }
@@ -378,14 +373,23 @@ public class PlayerController_2D : MonoBehaviour
                 _animalModels[i].SetActive(true);
             }
             //それ以外の動物だった場合
-            else
+            else if (_animalModels[i] != null)
             {
+
                 //動物のモデルを消す
                 _animalModels[i].SetActive(false);
             }
         }
 
         _hitAnimals.Add(animal);
+        for (int i = 0; i < _stageAnimals.Length; ++i)
+        {
+            if (_stageAnimals[i] == animal)
+            {
+                _selectUI.SetHitAnimal(i);
+                break;
+            }
+        }
     }
 
     private void SetState()
@@ -397,6 +401,20 @@ public class PlayerController_2D : MonoBehaviour
     public void InputChangeAnimal(Animal animal)
     {
         _nowAnimal = animal;
-        Debug.Log(_nowAnimal);
+        for (int i = 0; i < _animalModels.Length; i++)
+        {
+            //もし返信する動物のモデルになったら
+            if (i == (int)animal)
+            {
+                //その動物のモデルをセット
+                _animalModels[i].SetActive(true);
+            }
+            //それ以外の動物だった場合
+            else if (_animalModels[i] != null)
+            {
+                //動物のモデルを消す
+                _animalModels[i].SetActive(false);
+            }
+        }
     }
 }

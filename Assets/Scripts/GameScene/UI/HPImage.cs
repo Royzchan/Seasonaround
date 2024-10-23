@@ -11,7 +11,7 @@ public class HPImage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _playerController2D = GameObject.FindWithTag("Player").GetComponent<PlayerController_2D>();
+        _playerController2D = FindAnyObjectByType<PlayerController_2D>();
 
         // 子オブジェクトを全て取得する
         foreach (Transform child in this.transform)

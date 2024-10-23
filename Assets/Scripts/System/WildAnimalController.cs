@@ -9,25 +9,31 @@ public class WildAnimalController : MonoBehaviour
 
     [SerializeField, Header("自分がなんの動物か")]
     private Animal _myType;
-
+    [SerializeField, Header("動物")]
+    GameObject _animalObj;
+    BoxCollider _col;
     void Start()
     {
         //プレイヤーを取得
         _player = FindAnyObjectByType<PlayerController_2D>();
+        _col = GetComponent<BoxCollider>();
+        _animalObj = transform.GetChild(0).gameObject;
     }
 
     void Update()
     {
-
+        _animalObj.transform.Rotate(0,20 * Time.deltaTime,0);
     }
 
-    private void nTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         //もしプレイヤーに当たったら
         if (other.gameObject.CompareTag("Player"))
         {
             //プレイヤーの変身を呼ぶ
             _player.ChangeAnimal(_myType);
+            _animalObj.SetActive(false);
+            _col.enabled = false;
         }
     }
 }
