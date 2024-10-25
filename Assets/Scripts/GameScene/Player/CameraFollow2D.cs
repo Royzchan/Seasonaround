@@ -9,6 +9,7 @@ public class CameraFollow2D : MonoBehaviour
     [SerializeField, Header("追従のスピード")]
     private float _followSpeed;
 
+    [SerializeField]
     GameObject _player;//プレイヤー
     PlayerController_2D _playerController2D;
 
@@ -34,7 +35,6 @@ public class CameraFollow2D : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _player = GameObject.FindWithTag("Player");
         _playerController2D = _player.GetComponent<PlayerController_2D>();
         _offset = _player.transform.position - this.transform.position;
         _pos = transform.position;

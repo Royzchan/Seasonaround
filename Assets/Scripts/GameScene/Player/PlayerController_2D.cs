@@ -82,6 +82,7 @@ public class PlayerController_2D : MonoBehaviour
     private bool _canChangeAnimal = false;
 
     int _selectAnimalNum = -1;
+    Animator _animator;
     [SerializeField]
     SelectUIScript _selectUI;
     [SerializeField, Header("動物のモデル")]
@@ -141,7 +142,17 @@ public class PlayerController_2D : MonoBehaviour
     {
         //リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
+        //モデルのActiveなやつからAnimatorを取得
+        foreach(var body in _animalModels)
+        {
 
+            if(body != null && body.activeSelf)
+            {
+                _animator = body.GetComponent<Animator>();
+                break;
+            }
+        }
+        
         //スタミナを最大値をセット
         _nowStamina = _maxStamina;
     }
@@ -151,7 +162,12 @@ public class PlayerController_2D : MonoBehaviour
 
         //X軸のキー入力を保存
         _inputValueX = _moveXAction.ReadValue<float>();
-
+        if(_inputValueX != 0)
+        {
+            transform.localScale = new Vector3(_inputValueX, 1, 1);
+            _animator.Play("Walk");
+        }
+        
         //ジャンプのボタンが押されたら
         if (_jumpAction.WasPressedThisFrame())
         {
@@ -371,6 +387,8 @@ public class PlayerController_2D : MonoBehaviour
             {
                 //その動物のモデルをセット
                 _animalModels[i].SetActive(true);
+                //その動物のアニメーターを取得
+                _animator = _animalModels[i].GetComponent<Animator>();
             }
             //それ以外の動物だった場合
             else if (_animalModels[i] != null)
@@ -408,6 +426,8 @@ public class PlayerController_2D : MonoBehaviour
             {
                 //その動物のモデルをセット
                 _animalModels[i].SetActive(true);
+                //その動物のアニメーターを取得
+                _animator = _animalModels[i].GetComponent<Animator>();
             }
             //それ以外の動物だった場合
             else if (_animalModels[i] != null)

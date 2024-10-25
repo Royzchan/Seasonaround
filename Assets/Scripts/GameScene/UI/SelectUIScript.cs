@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 public class SelectUIScript : MonoBehaviour
@@ -11,6 +12,10 @@ public class SelectUIScript : MonoBehaviour
     GameObject[] _animals;
     bool[] _canSelect = {false,false,false,false};
     int _selectNum = 0;
+    [SerializeField]
+    float _cameraSize = 110;
+    [SerializeField]
+    Camera _uiCamera;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +24,7 @@ public class SelectUIScript : MonoBehaviour
             item.SetActive(false);
         }
         gameObject.SetActive(false);
-
+        _uiCamera.orthographicSize = _cameraSize * transform.parent.localScale.y;
     }
 
     private void OnEnable()
