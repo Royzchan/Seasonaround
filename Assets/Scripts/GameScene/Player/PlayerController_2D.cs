@@ -88,6 +88,9 @@ public class PlayerController_2D : MonoBehaviour
     [SerializeField, Header("動物のモデル")]
     private GameObject[] _animalModels;
 
+    bool _isGround = false;
+    public bool IsGround {  get { return _isGround; } }
+
     [Header("～インプット関係～")]
     [SerializeField, Header("横移動のキーコン")]
     private InputAction _moveXAction;
@@ -303,9 +306,17 @@ public class PlayerController_2D : MonoBehaviour
             _jumpNum = 0;
             _jumpNow = false;
             _isFly = false;
+            _isGround = true;
         }
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            _isGround = false;
+        }
+    }
     //ダメージ
     public void HitDamage()
     {
