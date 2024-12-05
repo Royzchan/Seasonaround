@@ -80,19 +80,17 @@ public class CameraFollow2D : MonoBehaviour
         if (_isZoom)
         {
             // ƒJƒƒ‰‚Ì’Ç]
-            if (!_playerController2D.IsGround)
-            {
-                _pos.y = _player.transform.position.y - _offset.y;
-            }
+           
+            _pos.y = _player.transform.position.y - _offset.y;
+            
             _pos.x = _player.transform.position.x - _zoomOffset.x;
         }
         else
         {
             // ƒJƒƒ‰‚Ì’Ç]
-            if (!_playerController2D.IsGround)
-            {
-                _pos.y = _player.transform.position.y - _offset.y;
-            }
+            
+            _pos.y = _player.transform.position.y - _offset.y;
+
             _pos.x = _player.transform.position.x - _offset.x;
         }
         //_pos‚ÌˆÊ’u‚ÉˆÚ“®

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using UnityEngine.UIElements;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 
 public enum Animal
@@ -25,10 +27,16 @@ public class PlayerController_2D : MonoBehaviour
     private Rigidbody _rb;
 
     //現在なんの動物かどうか
-    private Animal _nowAnimal = Animal.Squid;
+    private Animal _nowAnimal = Animal.Normal;
 
     [SerializeField, Header("プレイヤーの移動速度")]
     private float _speed = 5.0f;
+
+    [SerializeField, Header("プレイヤーの最高速度")]
+    private float _maxSpeed = 5.0f;
+
+    [SerializeField, Header("プレイヤーの泳ぐ速度")]
+    private float _swimSpeed = 5.0f;
 
     [SerializeField, Header("プレイヤーのジャンプ力")]
     private float _jumpPower = 5.0f;
@@ -40,7 +48,10 @@ public class PlayerController_2D : MonoBehaviour
 
     [SerializeField, Header("スタミナの最大値")]
     private float _maxStamina = 100;
-
+    [SerializeField, Header("スタミナの使用値")]
+    private float _useFrameStamina = 20f;
+    [SerializeField, Header("スタミナ回復量")]
+    private float _healStamina = 5f;
     private float _nowStamina;
 
     [SerializeField, Header("飛ぶスピード")]
@@ -73,6 +84,12 @@ public class PlayerController_2D : MonoBehaviour
     private float _windLatePower;
     private Vector3 _windPower;
 
+    [SerializeField, Header("標準落下速度(正確にはちょっと違う)")]
+    private float _defaultDrag;
+    [SerializeField, Header("張り付き状態の抵抗")]
+    private float _wallDrag = 5f;
+    [SerializeField, Header("水中内落下速度")]
+    private float _waterDrag;
     //当たったことのある(変身可能な)動物
     private List<Animal> _hitAnimals = new();
 
@@ -81,16 +98,27 @@ public class PlayerController_2D : MonoBehaviour
     //変身キーが押されている
     private bool _canChangeAnimal = false;
 
+    private Vector3 _preGroundPos = new Vector3();
     int _selectAnimalNum = -1;
     Animator _animator;
     [SerializeField]
     SelectUIScript _selectUI;
+    [SerializeField]
+    StaminaUIScript _staminaUI;
     [SerializeField, Header("動物のモデル")]
     private GameObject[] _animalModels;
 
     bool _isGround = false;
     public bool IsGround {  get { return _isGround; } }
 
+    public bool IsSwimming { get => _isSwimming; set => _isSwimming = value; }
+    
+    bool _isSwimming = false;
+    bool _isGrap = false;
+    bool _isMoveGrap = false;
+    bool _usedStamina = false;
+    GrapGimmick _grapData = null;
+    HingeJoint _joint = null;
     [Header("～インプット関係～")]
     [SerializeField, Header("横移動のキーコン")]
     private InputAction _moveXAction;
@@ -143,6 +171,7 @@ public class PlayerController_2D : MonoBehaviour
 
     void Start()
     {
+        _preGroundPos = transform.position;
         //リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
         //モデルのActiveなやつからAnimatorを取得
@@ -155,7 +184,7 @@ public class PlayerController_2D : MonoBehaviour
                 break;
             }
         }
-        
+        _staminaUI = FindAnyObjectByType<StaminaUIScript>();
         //スタミナを最大値をセット
         _nowStamina = _maxStamina;
     }
@@ -165,24 +194,41 @@ public class PlayerController_2D : MonoBehaviour
 
         //X軸のキー入力を保存
         _inputValueX = _moveXAction.ReadValue<float>();
-        if(_inputValueX != 0)
+        if (_inputValueX != 0)
         {
-            transform.localScale = new Vector3(_inputValueX, 1, 1);
-            _animator.Play("Walk");
+            //壁張り付き中は振りむかないように
+            if (_rb.useGravity)
+            {
+                transform.localScale = new Vector3(_inputValueX * Mathf.Abs(transform.localScale.x), 1, 1);
+            }
+
+            if (!_isGrap)
+            {
+                _animator.Play("Walk");
+            }
+
         }
-        
+
         //ジャンプのボタンが押されたら
         if (_jumpAction.WasPressedThisFrame())
         {
-            //ジャンプした回数がジャンプ可能回数より低かったら
-            if (_jumpNum < _canJumpNum)
+            if (!_isSwimming)
             {
-                //上に力を加える
-                _rb.AddForce(0f, _jumpPower, 0f, ForceMode.Impulse);
-                //ジャンプした回数をプラス
-                _jumpNum++;
-                //ジャンプ中の判定をtrueに
-                _jumpNow = true;
+                //ジャンプした回数がジャンプ可能回数より低かったら
+                if (_jumpNum < _canJumpNum)
+                {
+                    //上に力を加える
+                    _rb.AddForce(transform.rotation * new Vector3(0f, _jumpPower, 0f), ForceMode.Impulse);
+                    //ジャンプした回数をプラス
+                    _jumpNum++;
+                    //ジャンプ中の判定をtrueに
+                    _jumpNow = true;
+                }
+            }
+            else
+            {
+                //水中ならそのまま
+                _rb.AddForce(new Vector3(0f, _jumpPower, 0f), ForceMode.Impulse);
             }
         }
 
@@ -192,17 +238,24 @@ public class PlayerController_2D : MonoBehaviour
             //動物の固有能力を使う
             AnimalAction();
         }
-
+        if (_animalAbilityAction.WasReleasedThisFrame())
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
+            _rb.useGravity = true;
+            _isGrap = false;
+            Destroy(_joint);
+            _joint = null;
+        }
         //ジャンプ中だったら
         if (_jumpNow)
         {
-            // Rayをプレイヤーの前方に飛ばす
+            // Rayをプレイヤーの下方に飛ばす
             Ray ray = new Ray(transform.position, -transform.up);
 
             RaycastHit hit;
 
             // レイキャストを実行して、何かに当たったかを確認
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit,3f))
             {
                 //レイが敵に当たっていたら
                 if (hit.collider.gameObject.CompareTag("Enemy"))
@@ -211,6 +264,12 @@ public class PlayerController_2D : MonoBehaviour
                     _canDefeatEnemy = true;
                 }
                 //違う何かに当たっていたら
+                else if (hit.collider.gameObject.CompareTag("Ground"))
+                {
+                    //敵を倒せる判定をfalseに
+                    _canDefeatEnemy = false;
+                    _isGround = true;
+                }
                 else
                 {
                     //敵を倒せる判定をfalseに
@@ -252,12 +311,17 @@ public class PlayerController_2D : MonoBehaviour
                 _selectAnimalNum = 3;
                 _selectUI.ScaleMove(_selectAnimalNum);
             }
+            DebugAddHitAnimal(_selectAnimalNum);
         }
-        //変身ボタンを押したとき
+        //変身ボタンを押したとき(水中では変身不可)
         if (_changeAction.IsPressed())
         {
-            _canChangeAnimal = true;
-            _selectUI.gameObject.SetActive(true);
+
+            if (!_isSwimming)
+            {
+                _canChangeAnimal = true;
+                _selectUI.gameObject.SetActive(true);
+            }
         }
         //離したとき
         else if (_canChangeAnimal)
@@ -282,15 +346,55 @@ public class PlayerController_2D : MonoBehaviour
             _selectUI.gameObject.SetActive(false);
             _canChangeAnimal = false;
         }
+
+        if (_usedStamina)
+        {
+            if (_isGround)
+            {
+                _usedStamina = false;
+            }
+            
+        }
+        else
+        {
+            //回復
+            _nowStamina += _healStamina * Time.deltaTime;
+        }
+        _nowStamina = Mathf.Clamp(_nowStamina,0,_maxStamina);
+        _staminaUI.GaugeUpdate(_nowStamina, _maxStamina);
     }
 
     private void FixedUpdate()
     {
+        if (!_isSwimming && _isGround)
+        {
+            _preGroundPos = transform.position;
+        }
+        float speed = _speed;
+        if(_isSwimming)
+        {
+            speed = _swimSpeed;
+        }
         //速度を横移動の値に
-        _rb.velocity = new Vector3((_speed * _inputValueX), _rb.velocity.y, 0f) + _windPower;
+        if(Mathf.Sign(_rb.velocity.x) == Mathf.Sign(_inputValueX))
+        {
+            if(Mathf.Abs(_rb.velocity.x) < _maxSpeed)
+            {
+                _rb.velocity += transform.rotation * new Vector3(_inputValueX * speed, 0f, 0f);
+            }
+        }
+        else
+        {
+            _rb.velocity += transform.rotation * new Vector3(_inputValueX * speed, 0f, 0f);
+        }
+        //if(!_isGrap)
+        //{
+        //    _rb.velocity = new Vector3(Mathf.Clamp(_rb.velocity.x, -_maxSpeed, _maxSpeed), _rb.velocity.y) + _windPower;
+        //}
+        
         WindPowDown();
     }
-
+    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -301,21 +405,88 @@ public class PlayerController_2D : MonoBehaviour
                 Destroy(collision.gameObject);
             }
         }
+            
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
         if (collision.gameObject.CompareTag("Ground"))
         {
+          
             _jumpNum = 0;
             _jumpNow = false;
             _isFly = false;
             _isGround = true;
+
+            
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            if(_nowAnimal == Animal.Gecko)
+            {
+                _isSwimming = true;
+                _rb.drag = _waterDrag;
+            }
+            else
+            {
+                transform.position = _preGroundPos;
+                _rb.velocity = Vector3.zero;
+            }
+            
+        }
+        
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //ツタに当たってる間その情報を取得
+        if(other.CompareTag("Grap") && _grapData == null) 
+        {
+            _grapData = other.GetComponent<GrapGimmick>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            _isSwimming = false;
+            //抵抗をもとに戻す
+            _rb.drag = _defaultDrag;
+            //追加でジャンプできないように
+            _jumpNum = _canJumpNum;
+        }
+        //移動アニメーション中はストップ
+        else if(other.CompareTag("Grap") && !_isMoveGrap)
+        {
+            _grapData = null;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if(collision.gameObject.CompareTag("Ground") )
         {
+           
             _isGround = false;
         }
+    }
+
+    void DebugAddHitAnimal(int _selectAnimal)
+    {
+#if UNITY_EDITOR
+        //初期値なら処理を行わない
+        if (_selectAnimal == -1) return;
+        //hitAnimalsに入っていない&controllが押されている
+        if (Input.GetKey(KeyCode.LeftControl) && !_hitAnimals.Contains(_stageAnimals[_selectAnimal]))
+        {
+            _hitAnimals.Add(_stageAnimals[_selectAnimal]);
+            _selectUI.SetHitAnimal(_selectAnimal);
+        }
+#endif
     }
     //ダメージ
     public void HitDamage()
@@ -364,24 +535,125 @@ public class PlayerController_2D : MonoBehaviour
         }
     }
 
+    IEnumerator MoveGrapPosition()
+    {
+        //animation中は停止
+        _isMoveGrap = true;
+        _rb.isKinematic = true;
+        //空中で一旦静止(演出、いらない気がしないでもない)
+        yield return new WaitForSeconds(0.15f);
+        Vector3 prePos = transform.position;
+        Vector3 grapPos = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
+        float timer = 0f;
+        //距離が0.3f,又は時間が0.8fをすぎるまで繰り返す
+        while(true)
+        {
+            timer += Time.deltaTime;
+            //deltaTimeの分待機(この部分・・・なんか変・・・)
+            yield return new WaitForSeconds(Time.deltaTime);
+            grapPos = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
+            //移動
+            transform.position = Vector3.Lerp(prePos,grapPos,timer/ 0.8f);
+
+            if (timer > 0.8f || Vector3.Distance(transform.position, _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos) < 0.3f)
+            {
+                //位置をgrapPosに固定
+                transform.position = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
+                transform.rotation = _grapData.transform.rotation;
+                _rb.isKinematic = false;
+                break;
+            }
+        }
+        //animation終了
+        _isMoveGrap = false;
+        CreateGrapJoint();
+    }
+
+    void CreateGrapJoint()
+    {
+        if(_grapData != null)
+        {
+            _joint = gameObject.AddComponent<HingeJoint>();
+            _joint.axis = new Vector3(0, 0, 1f);
+            _joint.connectedBody = _grapData.gameObject.GetComponent<Rigidbody>();
+        }
+       
+    }
     //動物の固有アクション
     private void AnimalAction()
     {
         switch (_nowAnimal)
         {
+            //スライム
+            case Animal.Normal:
+                //グラップ可能かつjointが空
+                if (_joint == null && !_isGrap && _grapData != null)
+                {
+                    //transform.position = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
+                    _isGrap = true;
+                    StartCoroutine(MoveGrapPosition());
+                }
+                else if (_joint != null && _grapData != null)
+                {
+                    //ローテーションの固定
+                    transform.rotation = _grapData.transform.rotation;
+                }
+                break;
             //ゴリラ
             case Animal.Colobus:
-
+                //_animator.Play("Attack");
+                _animalModels[(int)Animal.Colobus].GetComponent<PlayableDirector>().Play();
                 break;
 
             //トカゲ
             case Animal.Gecko:
+                float rayLength = 0.7f;
+                //右方向レイ
+                Ray ray = new Ray(transform.position, Vector3.right);
+                Debug.DrawRay(transform.position, Vector3.right * rayLength, Color.red, 2f);
+                RaycastHit hit;
+                if(_nowStamina <= 0)
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
+                    _rb.useGravity = true;
+                }
+                // レイキャストを実行して、何かに当たったかを確認
+                else if (Physics.Raycast(ray, out hit, rayLength, 1 << 8))
+                {
+                    //Debug.Log("→当たってるよ");
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90f));
+                    _rb.useGravity = false;
+                    _rb.velocity *= _wallDrag * Time.deltaTime;
+                    _nowStamina -= _useFrameStamina * Time.deltaTime;
+                    _usedStamina = true;
+                }
+                else
+                {
+                    //←方向レイ
+                    ray = new Ray(transform.position, Vector3.left);
+                    // レイキャストを実行して、何かに当たったかを確認
+                    if (Physics.Raycast(ray, out hit, rayLength, 1 << 8))
+                    {
+                        //Debug.Log("←当たってるよ");
+                        transform.rotation = Quaternion.Euler(new Vector3(180, 180f, 90f));
+                        _rb.useGravity = false;
+                        _rb.velocity *= _wallDrag * Time.deltaTime;
+                        _nowStamina -= _useFrameStamina * Time.deltaTime;
+                        _usedStamina = true;
+                    }
+                    else
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
+                        _rb.useGravity = true;
+                    }
+                }
 
                 break;
 
             //雀
-            case Animal.Squid:
-                _rb.velocity = new Vector3((_speed * _inputValueX), _flySpeed, 0f);
+            case Animal.Sparrow:
+                //_rb.velocity = new Vector3((_speed * _inputValueX), _flySpeed, 0f);
+                _rb.AddForce(new Vector3(0,_flySpeed,0));
                 _isFly = true;
                 break;
         }
@@ -390,6 +662,9 @@ public class PlayerController_2D : MonoBehaviour
     //動物に触れた時に返信する処理
     public void ChangeAnimal(Animal animal)
     {
+        //_animalModels[(int)_nowAnimal].SetActive(false);
+        _nowAnimal = animal;
+        //_animalModels[(int)_nowAnimal].SetActive(true);
         //モデルの配列を確認していく
         for (int i = 0; i < _animalModels.Length; i++)
         {
@@ -404,7 +679,6 @@ public class PlayerController_2D : MonoBehaviour
             //それ以外の動物だった場合
             else if (_animalModels[i] != null)
             {
-
                 //動物のモデルを消す
                 _animalModels[i].SetActive(false);
             }
@@ -419,33 +693,26 @@ public class PlayerController_2D : MonoBehaviour
                 break;
             }
         }
+        SetState((int)animal);
     }
 
-    private void SetState()
+    private void SetState(int dataNum)
     {
-        _speed = AnimalData.animalDatas[0].Speed;
-        _jumpPower = AnimalData.animalDatas[0].JumpPower;
+        _maxSpeed = AnimalData.animalDatas[dataNum].Speed;
+        _jumpPower = AnimalData.animalDatas[dataNum].JumpPower;
     }
 
     public void InputChangeAnimal(Animal animal)
     {
+
+        //前のオブジェクトをfalse
+        _animalModels[(int)_nowAnimal].SetActive(false);
+        //変更
         _nowAnimal = animal;
-        for (int i = 0; i < _animalModels.Length; i++)
-        {
-            //もし返信する動物のモデルになったら
-            if (i == (int)animal)
-            {
-                //その動物のモデルをセット
-                _animalModels[i].SetActive(true);
-                //その動物のアニメーターを取得
-                _animator = _animalModels[i].GetComponent<Animator>();
-            }
-            //それ以外の動物だった場合
-            else if (_animalModels[i] != null)
-            {
-                //動物のモデルを消す
-                _animalModels[i].SetActive(false);
-            }
-        }
+        _animalModels[(int)_nowAnimal].SetActive(true);
+        _animator = _animalModels[(int)_nowAnimal].GetComponent<Animator>();
+        SetState((int)animal);
     }
+
+
 }

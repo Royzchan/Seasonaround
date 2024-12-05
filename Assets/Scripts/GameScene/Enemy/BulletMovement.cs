@@ -7,12 +7,17 @@ public class BulletMovement : MonoBehaviour
     [SerializeField, Header("’e‚Ì‘¬“x")]
     private float _bulletSpeed = 10f;
 
+    Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+
+        rb.AddForce(this.gameObject.transform.forward * _bulletSpeed, ForceMode.Impulse);
+    }
     // Update is called once per frame
     void Update()
     {
-        // ’e‚ð‘O•û‚ÉˆÚ“®‚³‚¹‚é
-        transform.Translate(Vector3.forward * _bulletSpeed * Time.deltaTime);
-
         Destroy(this.gameObject, 5f);
     }
 

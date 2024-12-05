@@ -5,6 +5,13 @@ public class RushEnemy : MonoBehaviour
     GameObject player;
     Rigidbody rb;
 
+    //アニメーター
+    [SerializeField]
+    private Animator _animator;
+
+    //攻撃のアニメーションの判定
+    private string _isAttack = "AttackNow";
+
     [SerializeField, Header("プレイヤーとの距離")]
     private float _distance = 5f;
 
@@ -42,6 +49,11 @@ public class RushEnemy : MonoBehaviour
         }
     }
 
+    void GoAttack()
+    {
+        isRushing = true; // 突進を開始
+    }
+
     // 突進関数
     void Rush(float dis)
     {
@@ -55,13 +67,15 @@ public class RushEnemy : MonoBehaviour
 
             if (!isRushing && _pauseTimer <= 0f) // 一時停止中でない場合に突進を開始
             {
-                isRushing = true; // 突進を開始
+                //突進のアニメーション開始
+                _animator.SetBool(_isAttack, true);
                 print("突進開始");
             }
         }
         else // プレイヤーとの距離が設定した範囲を超えた場合
         {
             isRushing = false;
+            _animator.SetBool(_isAttack, false);
             _pauseTimer = _pauseDuration; // 一時停止タイマーを設定
         }
 

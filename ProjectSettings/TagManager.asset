@@ -7,6 +7,11 @@ TagManager:
   - Ground
   - Enemy
   - Bullet
+  - Water
+  - Attack
+  - Grap
+  - Rock
+  - Goal
   layers:
   - Default
   - TransparentFX
@@ -16,7 +21,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Wall
   - 
   - 
   - 
