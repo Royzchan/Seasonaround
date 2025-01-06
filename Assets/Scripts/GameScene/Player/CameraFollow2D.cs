@@ -8,6 +8,8 @@ public class CameraFollow2D : MonoBehaviour
     private float _zoomSpeed;
     [SerializeField, Header("追従のスピード")]
     private float _followSpeed;
+    [SerializeField,Header("Rayの長さ")]
+    float _rayLength = 0.5f;
 
     [SerializeField]
     GameObject _player;//プレイヤー
@@ -19,18 +21,18 @@ public class CameraFollow2D : MonoBehaviour
 
     float _firstDis;//最初の距離
     float _dis;//現在の距離
+    float _zoomValue;
+    float _zoomObjTime;
+    Vector3 _zoomObjPos;
 
     //ズーム中かどうか
     private bool _isZoom = false;
-
+    private bool _isFollowX = true;
+    private bool _isFollowY = true;
     bool _isCameraShake = false;
+    bool _isObjZoom = false;
 
-    enum State
-    {
-        Follow,
-        Zoom
-    }
-    State _state = State.Follow;
+    private Vector3 _previousPosition; // 前のフレームの位置
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +59,8 @@ public class CameraFollow2D : MonoBehaviour
         {
             Shake(5, 0.1f);
         }
+
+        ObjDetection();
     }
 
     // Update is called once per frame
@@ -64,12 +68,13 @@ public class CameraFollow2D : MonoBehaviour
     {
         if (_player != null)
         {
-            if (_state == State.Follow)
+            if (_isObjZoom)
+            {
+                ZoomObjUpdate();
+            }
+            else
             {
                 FollowUpdate();
-            }
-            else if (_state == State.Zoom)
-            {
                 ZoomUpdate();
             }
         }
@@ -77,66 +82,61 @@ public class CameraFollow2D : MonoBehaviour
 
     void FollowUpdate()
     {
-        if (_isZoom)
-        {
-            // カメラの追従
-           
-            _pos.y = _player.transform.position.y - _offset.y;
-            
-            _pos.x = _player.transform.position.x - _zoomOffset.x;
-        }
-        else
-        {
-            // カメラの追従
-            
-            _pos.y = _player.transform.position.y - _offset.y;
+        if (_isFollowY) _pos.y = Mathf.Lerp(_pos.y, _player.transform.position.y - _offset.y, _followSpeed);
 
-            _pos.x = _player.transform.position.x - _offset.x;
-        }
+        if (_isFollowX) _pos.x = Mathf.Lerp(_pos.x, _player.transform.position.x - _offset.x, _followSpeed);
         //_posの位置に移動
-        transform.position = Vector3.Lerp(transform.position, _pos, _followSpeed);
+        transform.position = _pos;
     }
 
     void ZoomUpdate()
     {
         if (_isZoom)
         {
-            _pos.x = _player.transform.position.x;
-            if (_playerController2D.ISFly) _pos.y = _player.transform.position.y - _offset.y;
+            _pos.z = Mathf.Lerp(_pos.z, _player.transform.position.z - _offset.z + _zoomValue, _zoomSpeed);
         }
         else
         {
-            _pos.x = _player.transform.position.x - _offset.x;
-            if (_playerController2D.ISFly) _pos.y = _player.transform.position.y - _offset.y;
+            _pos.z = Mathf.Lerp(_pos.z, _player.transform.position.z - _offset.z, _zoomSpeed);
         }
+    }
 
-        //_posの位置に移動
-        transform.position = Vector3.Lerp(transform.position, _pos, _zoomSpeed);
-        if (transform.position == _pos)
+    void ZoomObjUpdate()
+    {
+        _pos = Vector3.Lerp(_pos, _zoomObjPos, _zoomSpeed);
+        _zoomObjTime -= Time.deltaTime;
+        if(_zoomObjTime <= 0)
         {
-            _state = State.Follow;
-            _zoomOffset = transform.position - transform.position;
+            ZoomOut();
         }
     }
 
     public void Zoom(float value)
     {
         if (_isZoom) return;
-
-        _state = State.Zoom;
-        _pos.z = _player.transform.position.z - _offset.z + value;
+        _zoomValue = value;
         //ズーム中に変更
         _isZoom = true;
+    }
+
+    public void ZoomObj(float value, Vector3 pos, float time)
+    {
+        if (_isZoom) return;
+        _zoomObjPos = pos;
+        _zoomObjPos.z = _player.transform.position.z - _offset.z + _zoomValue;
+        _zoomObjTime = time;
+        //ズーム中に変更
+        _isZoom = true;
+        _isObjZoom = true;
     }
 
     public void ZoomOut()
     {
         if (!_isZoom) return;
 
-        _pos.z = _player.transform.position.z - _offset.z;
-
         //ズーム中ではない状態に変更
         _isZoom = false;
+        _isObjZoom = false;
     }
 
     //カメラ揺れ（デフォルト値 : 0.25f, 0.1f）
@@ -169,8 +169,41 @@ public class CameraFollow2D : MonoBehaviour
         transform.localRotation = _beforeRot;
         _isCameraShake = false;
     }
+
+    //止まっている時にのみ使用（カットシーン的な）
     public void Shake(float duration, float magnitude)
     {
         StartCoroutine(CameraShake(duration, magnitude));
+    }
+
+    //カメラの進行方向にオブジェクトがあったら進まない
+    void ObjDetection()
+    {
+        Vector3 directionX = new Vector3(_player.transform.position.x - _offset.x - transform.position.x,0, 0).normalized;
+        Vector3 directionY = new Vector3(0, _player.transform.position.y - _offset.y - transform.position.y, 0).normalized;
+        
+        // 移動方向にRayを飛ばして障害物を検知
+        //X
+        Ray rayX = new Ray(transform.position, directionX);
+        // 障害物がなければ移動
+        if (!Physics.Raycast(rayX, _rayLength))
+        {
+            _isFollowX = true;
+        }
+        else
+        {
+            _isFollowX = false;
+        }
+        //Y
+        Ray rayY = new Ray(transform.position, directionY);
+        // 障害物がなければ移動
+        if (!Physics.Raycast(rayY, _rayLength))
+        {
+            _isFollowY = true;
+        }
+        else
+        {
+            _isFollowY = false;
+        }
     }
 }
