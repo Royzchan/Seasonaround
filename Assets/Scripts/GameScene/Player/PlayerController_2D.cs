@@ -144,6 +144,17 @@ public class PlayerController_2D : MonoBehaviour
     // 有効化
     private void OnEnable()
     {
+        InputActionEnable();
+    }
+
+    // 無効化
+    private void OnDisable()
+    {
+        InputActionDisable();
+    }
+
+    public void InputActionEnable()
+    {
         // InputActionを有効化
         _moveXAction?.Enable();
         _jumpAction?.Enable();
@@ -155,8 +166,7 @@ public class PlayerController_2D : MonoBehaviour
         _cursorLeftAction?.Enable();
     }
 
-    // 無効化
-    private void OnDisable()
+    public void InputActionDisable()
     {
         // 自身が無効化されるタイミングなどで
         _moveXAction?.Disable();
@@ -167,6 +177,12 @@ public class PlayerController_2D : MonoBehaviour
         _cursorRightAction?.Disable();
         _cursorDownAction?.Disable();
         _cursorLeftAction?.Disable();
+    }
+
+    public void MoveStop()
+    {
+        //会話になった時の停止用
+        _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, 0.6f);
     }
 
     void Start()
