@@ -7616,6 +7616,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1349574777}
     - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
+      propertyPath: _staminaUI
+      value: 
+      objectReference: {fileID: 607858799}
+    - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: _canJumpNum
       value: 1
       objectReference: {fileID: 0}
@@ -9614,6 +9618,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+--- !u!114 &607858799 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4647337231350154287, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+  m_PrefabInstance: {fileID: 607858798}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81efdaa49855b804c87df4aa5795154e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &608821622
 PrefabInstance:
   m_ObjectHideFlags: 0
