@@ -22,14 +22,14 @@ public class SceneChange : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene(_sceneName);
+        FadeManager.Instance.LoadScene(_sceneName,1.0f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(_sceneName);
+            FadeManager.Instance.LoadScene(_sceneName, 1.0f);
         }
     }
 }

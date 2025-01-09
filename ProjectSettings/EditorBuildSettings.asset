@@ -21,6 +21,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SeasonScenes/Autumn.unity
     guid: 87907b57970477748a68331a41464e16
   - enabled: 1
+    path: Assets/Scenes/SelectScene_Anim.unity
+    guid: 5ca297878daa85142a2c3a44902ff441
+  - enabled: 1
     path: Assets/Scenes/SeasonScenes/Winter.unity
     guid: e5bfb31745f5f5a42a4616e304d323a0
+  - enabled: 1
+    path: Assets/Scenes/OpeningMovieScene.unity
+    guid: 2e9824338b509bf43bb7f0c0f9b7b2e2
   m_configObjects: {}

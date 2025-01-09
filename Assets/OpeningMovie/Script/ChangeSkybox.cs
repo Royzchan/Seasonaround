@@ -11,7 +11,13 @@ public class ChangeSkybox : MonoBehaviour
     void OnEnable()
     {
         Debug.Log("スカイボックス");
+
         StartFade(0f, 1f);
+    }
+
+    private void Start()
+    {
+        skyboxMaterial.SetFloat("_value", 0f);
     }
 
     public void StartFade(float from, float to)
