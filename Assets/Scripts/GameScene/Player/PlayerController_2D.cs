@@ -179,10 +179,23 @@ public class PlayerController_2D : MonoBehaviour
         _cursorLeftAction?.Disable();
     }
 
-    public void MoveStop()
+    public void MoveStop(Vector3 zoomObjPos)
     {
         //‰ï˜b‚É‚È‚Á‚½Žž‚Ì’âŽ~—p
         _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, 0.6f);
+        LookZoomObj(zoomObjPos);
+    }
+
+    void LookZoomObj(Vector3 zoomObjPos)
+    {
+        if(zoomObjPos.x > transform.position.x)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if(zoomObjPos.x < transform.position.x)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     void Start()

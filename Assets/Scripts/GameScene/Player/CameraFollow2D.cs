@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class CameraFollow2D : MonoBehaviour
 {
@@ -22,8 +23,6 @@ public class CameraFollow2D : MonoBehaviour
     float _firstDis;//最初の距離
     float _dis;//現在の距離
     float _zoomValue;
-    float _zoomObjTime;
-    Vector3 _zoomObjPos;
 
     //ズーム中かどうか
     private bool _isZoom = false;
@@ -70,7 +69,7 @@ public class CameraFollow2D : MonoBehaviour
         {
             if (_isObjZoom)
             {
-                ZoomObjUpdate();
+                ZoomOutObjUpdate();
             }
             else
             {
@@ -101,14 +100,44 @@ public class CameraFollow2D : MonoBehaviour
         }
     }
 
-    void ZoomObjUpdate()
+    public void ZoomObjUpdate(float value, Vector3 pos)
     {
-        _pos = Vector3.Lerp(_pos, _zoomObjPos, _zoomSpeed);
-        _zoomObjTime -= Time.deltaTime;
-        if(_zoomObjTime <= 0)
+        if (_isZoom)
         {
-            ZoomOut();
+            //_zoomObjPosに近づく（_pos.zのみに_zoomValueを足したいので個別）
+            _pos.y = Mathf.Lerp(_pos.y, pos.y - _offset.y, _zoomSpeed);
+            _pos.x = Mathf.Lerp(_pos.x, pos.x - _offset.x, _zoomSpeed);
+            _pos.z = Mathf.Lerp(_pos.z, pos.z - _offset.z + value, _zoomSpeed);
+            //_posの位置に移動
+            transform.position = _pos;
         }
+        else
+        {
+            ZoomObj();
+        }
+    }
+
+    void ZoomOutObjUpdate()
+    {
+        if (!_isZoom)
+        {
+            //_zoomObjPosに近づく（_pos.zのみに_zoomValueを足したいので個別）
+            _pos.y = Mathf.Lerp(_pos.y, _player.transform.position.y - _offset.y, _zoomSpeed);
+            _pos.x = Mathf.Lerp(_pos.x, _player.transform.position.x - _offset.x, _zoomSpeed);
+            _pos.z = Mathf.Lerp(_pos.z, _player.transform.position.z - _offset.z, _zoomSpeed);
+            //_posの位置に移動
+            transform.position = _pos;
+
+            //2秒後に実行
+            Invoke("ObjZommFinish", 2f);
+        }
+    }
+
+    void ObjZommFinish()
+    {
+        //プレイヤーが動けるように
+        _playerController2D.InputActionEnable();
+        _isObjZoom = false;
     }
 
     public void Zoom(float value)
@@ -119,12 +148,9 @@ public class CameraFollow2D : MonoBehaviour
         _isZoom = true;
     }
 
-    public void ZoomObj(float value, Vector3 pos, float time)
+    void ZoomObj()
     {
         if (_isZoom) return;
-        _zoomObjPos = pos;
-        _zoomObjPos.z = _player.transform.position.z - _offset.z + _zoomValue;
-        _zoomObjTime = time;
         //ズーム中に変更
         _isZoom = true;
         _isObjZoom = true;
@@ -136,7 +162,6 @@ public class CameraFollow2D : MonoBehaviour
 
         //ズーム中ではない状態に変更
         _isZoom = false;
-        _isObjZoom = false;
     }
 
     //カメラ揺れ（デフォルト値 : 0.25f, 0.1f）
