@@ -19,7 +19,7 @@ public class ChestMonsterController : MonoBehaviour
     private State _state = State.Idle;
 
     [SerializeField, Header("移動速度")]
-    private float _speed = 5.0f;
+    private float _speed = 0.5f;
     [SerializeField, Header("攻撃を始める距離")]
     private float _attackDistance = 2.0f;
     [SerializeField, Header("何秒動いたら攻撃するか")]
@@ -27,9 +27,12 @@ public class ChestMonsterController : MonoBehaviour
     [SerializeField, Header("攻撃後敵を探す時間")]
     private float _serachPlayerTime = 2.0f;
 
-    private bool _foundPlayer = false;
-    private float _runTimeCount = 0.0f;
-    private float _searchTimeCount = 0.0f;
+    private bool _foundPlayer = false;    //プレイヤーを見つけているか
+    private float _runTimeCount = 0.0f;   //プレイヤー発見後走る時間
+    private float _searchTimeCount = 0.0f;//プレイヤーを探す時間
+    private float _moveDirection = 1.0f;  //プレイヤーの進む向き
+
+
 
     //アニメーションのstring
     private string _isIdle = "isIdleChest";
@@ -59,6 +62,7 @@ public class ChestMonsterController : MonoBehaviour
                 {
                     AtackStart();
                 }
+                _rb.velocity = new Vector3(_moveDirection * _speed, _rb.velocity.y, 0f);
                 break;
 
             case State.Attack:
@@ -97,6 +101,15 @@ public class ChestMonsterController : MonoBehaviour
 
             if (distance <= _attackDistance)
             {
+                if ((myPos.x - playerPos.x) <= 0)
+                {
+                    LookRight();
+                }
+                else
+                {
+                    LookLeft();
+                }
+
                 FoundPlayer();
                 return true;
             }
@@ -141,5 +154,17 @@ public class ChestMonsterController : MonoBehaviour
         _animator.SetBool(_isSearch, true);
         _foundPlayer = false;
         _runTimeCount = 0f;
+    }
+
+    public void LookRight()
+    {
+        transform.eulerAngles = new Vector3(0, 90f, 0);
+        _moveDirection = 1;
+    }
+
+    public void LookLeft()
+    {
+        transform.eulerAngles = new Vector3(0, -90f, 0);
+        _moveDirection = -1;
     }
 }
