@@ -297,12 +297,12 @@ public class GhostScript : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            // player HP
+            // _player HP
             HP = maxHP;
             
             Ctrl.enabled = false;
-            this.transform.position = Vector3.zero; // player position
-            this.transform.rotation = Quaternion.Euler(Vector3.zero); // player facing
+            this.transform.position = Vector3.zero; // _player position
+            this.transform.rotation = Quaternion.Euler(Vector3.zero); // _player facing
             Ctrl.enabled = true;
             
             // reset Dissolve
