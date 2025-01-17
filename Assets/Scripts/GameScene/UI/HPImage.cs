@@ -25,7 +25,7 @@ public class HPImage : MonoBehaviour
     {
         for(int i = 0; i < _hpImages.Count; i++)
         {
-            if(i < _playerController2D.HP)
+            if(i < _playerController2D.Hp)
             {
                 _hpImages[i].SetActive(true);
             }

@@ -12,6 +12,7 @@ TagManager:
   - Grap
   - Rock
   - Goal
+  - Death
   layers:
   - Default
   - TransparentFX

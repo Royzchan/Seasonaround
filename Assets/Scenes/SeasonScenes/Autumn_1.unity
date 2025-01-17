@@ -1425,7 +1425,7 @@ GameObject:
   - component: {fileID: 81694916}
   m_Layer: 0
   m_Name: DedWater_Base
-  m_TagString: Untagged
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1445,7 +1445,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1547,7 +1547,7 @@ Transform:
   m_Children:
   - {fileID: 1443575825}
   - {fileID: 1616853182}
-  m_Father: {fileID: 827011442}
+  m_Father: {fileID: 487230884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &84106278 stripped
 Transform:
@@ -1762,6 +1762,7 @@ GameObject:
   - component: {fileID: 101956389}
   - component: {fileID: 101956388}
   - component: {fileID: 101956387}
+  - component: {fileID: 101956390}
   m_Layer: 0
   m_Name: DamageWall4
   m_TagString: Untagged
@@ -1855,6 +1856,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101956385}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &101956390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101956385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538e1bc9c7aba5e40af11431dcbd5868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
 --- !u!4 &109088824 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 78663587995101969, guid: 6fbeead406b0d6c4ba7793d754752d28, type: 3}
@@ -2958,6 +2972,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -942445950811305749, guid: 06922b963b921e44cbadd739dab73ab0, type: 3}
+--- !u!1 &164245234 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4601699449825571429, guid: 19a6fa03c670d9746aad851d0788c46b, type: 3}
+  m_PrefabInstance: {fileID: 810355638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &164422880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3265,7 +3284,7 @@ GameObject:
   - component: {fileID: 181910459}
   m_Layer: 0
   m_Name: DedWater_Surface (1)
-  m_TagString: Untagged
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8976,7 +8995,7 @@ GameObject:
   - component: {fileID: 446268177}
   m_Layer: 0
   m_Name: DedWater_Surface
-  m_TagString: Untagged
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8996,7 +9015,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -9924,6 +9943,7 @@ Transform:
   - {fileID: 181910458}
   - {fileID: 446268180}
   - {fileID: 1399778029}
+  - {fileID: 82838354}
   m_Father: {fileID: 827011442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &490007309
@@ -10796,11 +10816,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4797232034769817574, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5999985
+      value: 18.7
       objectReference: {fileID: 0}
     - target: {fileID: 4797232034769817574, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 36.979996
+      value: 37.6
       objectReference: {fileID: 0}
     - target: {fileID: 4797232034769817574, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10835,6 +10855,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
+      propertyPath: _maxHp
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 164245234}
+    - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: _selectUI
       value: 
       objectReference: {fileID: 1349574777}
@@ -10842,6 +10870,10 @@ PrefabInstance:
       propertyPath: _canJumpNum
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
+      propertyPath: _movecamera
+      value: 
+      objectReference: {fileID: 164245234}
     - target: {fileID: 7121439785545316881, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: _windLatePower
       value: 0.93
@@ -12504,13 +12536,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5107782329993651278, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5107782329993651278, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5294030150306083280, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
       propertyPath: m_Name
       value: GameCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 5294030150306083280, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16104,8 +16144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoomValue: 2
-  _isPlayerZoom: 1
-  _zoomObj: {fileID: 0}
 --- !u!1 &768715030 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8427431723743142142, guid: 41cc69c0c889e2f43a43aae35a705a3c, type: 3}
@@ -17209,11 +17247,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1069723373680298177, guid: 19a6fa03c670d9746aad851d0788c46b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.6
+      value: 18.7
       objectReference: {fileID: 0}
     - target: {fileID: 1069723373680298177, guid: 19a6fa03c670d9746aad851d0788c46b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 37.8
+      value: 38.420002
       objectReference: {fileID: 0}
     - target: {fileID: 1069723373680298177, guid: 19a6fa03c670d9746aad851d0788c46b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17373,7 +17411,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 487230884}
-  - {fileID: 82838354}
   m_Father: {fileID: 1005726107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &829872218 stripped
@@ -19205,6 +19242,7 @@ GameObject:
   - component: {fileID: 928640484}
   - component: {fileID: 928640483}
   - component: {fileID: 928640482}
+  - component: {fileID: 928640485}
   m_Layer: 0
   m_Name: DamageWall
   m_TagString: Untagged
@@ -19298,6 +19336,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928640480}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &928640485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928640480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538e1bc9c7aba5e40af11431dcbd5868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
 --- !u!1 &931792161
 GameObject:
   m_ObjectHideFlags: 0
@@ -27285,8 +27336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoomValue: -2
-  _isPlayerZoom: 1
-  _zoomObj: {fileID: 0}
 --- !u!1 &1256666618
 GameObject:
   m_ObjectHideFlags: 0
@@ -29832,6 +29881,7 @@ GameObject:
   - component: {fileID: 1359905215}
   - component: {fileID: 1359905214}
   - component: {fileID: 1359905213}
+  - component: {fileID: 1359905216}
   m_Layer: 0
   m_Name: DamageWall3
   m_TagString: Untagged
@@ -29925,6 +29975,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359905211}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1359905216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359905211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538e1bc9c7aba5e40af11431dcbd5868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
 --- !u!4 &1360696701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 112935301516251139, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
@@ -40269,8 +40332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoomValue: -2
-  _isPlayerZoom: 1
-  _zoomObj: {fileID: 0}
 --- !u!1 &1825993788
 GameObject:
   m_ObjectHideFlags: 0
@@ -41735,7 +41796,7 @@ GameObject:
   - component: {fileID: 1907528191}
   m_Layer: 0
   m_Name: DedWater_Surface
-  m_TagString: Untagged
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41755,7 +41816,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -43717,8 +43778,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoomValue: 2
-  _isPlayerZoom: 1
-  _zoomObj: {fileID: 0}
 --- !u!1001 &2009377028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46237,6 +46296,7 @@ GameObject:
   - component: {fileID: 2111657600}
   - component: {fileID: 2111657599}
   - component: {fileID: 2111657598}
+  - component: {fileID: 2111657601}
   m_Layer: 0
   m_Name: DamageWall2
   m_TagString: Untagged
@@ -46330,6 +46390,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2111657596}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2111657601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111657596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538e1bc9c7aba5e40af11431dcbd5868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
 --- !u!1 &2114356060
 GameObject:
   m_ObjectHideFlags: 0

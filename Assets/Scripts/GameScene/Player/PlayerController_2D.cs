@@ -22,7 +22,7 @@ public enum Animal
     Taipan//蛇
 }
 
-public class PlayerController_2D : MonoBehaviour
+public class PlayerController_2D : MonoBehaviour, IDamageable
 {
     private Rigidbody _rb;
 
@@ -40,11 +40,6 @@ public class PlayerController_2D : MonoBehaviour
 
     [SerializeField, Header("プレイヤーのジャンプ力")]
     private float _jumpPower = 5.0f;
-
-    [SerializeField, Header("プレイヤーのHP")]
-    private int _hp;
-
-    public int HP { get { return _hp; } }
 
     [SerializeField, Header("スタミナの最大値")]
     private float _maxStamina = 100;
@@ -141,6 +136,17 @@ public class PlayerController_2D : MonoBehaviour
     [SerializeField]
     private InputAction _cursorLeftAction;
 
+    [SerializeField, Header("プレイヤーのHP")]
+    private int _hp;
+
+    [SerializeField, Header("HPの最大値")]
+    int _maxHp;
+
+    [SerializeField, Header("揺らすカメラ")]
+    public GameObject _movecamera;
+    private float moveX;
+    private float moveY;
+
     // 有効化
     private void OnEnable()
     {
@@ -198,6 +204,20 @@ public class PlayerController_2D : MonoBehaviour
         }
     }
 
+    public int Hp
+    {
+        get { return _hp; }
+        set
+        {
+            _hp = Mathf.Clamp(value, 0, _maxHp);
+
+            if (_hp <= 0)
+            {
+                Death();
+            }
+        }
+    }
+
     void Start()
     {
         _preGroundPos = transform.position;
@@ -216,6 +236,11 @@ public class PlayerController_2D : MonoBehaviour
         _staminaUI = FindAnyObjectByType<StaminaUIScript>();
         //スタミナを最大値をセット
         _nowStamina = _maxStamina;
+
+        Hp = _maxHp;
+
+        moveX = 1;
+        moveY = 1;
     }
 
     void Update()
@@ -424,7 +449,7 @@ public class PlayerController_2D : MonoBehaviour
         WindPowDown();
     }
     
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -433,6 +458,11 @@ public class PlayerController_2D : MonoBehaviour
             {
                 Destroy(collision.gameObject);
             }
+        }
+
+        if (collision.gameObject.CompareTag ("Death"))
+        {
+            _hp = 0;
         }
             
     }
@@ -450,7 +480,7 @@ public class PlayerController_2D : MonoBehaviour
             
         }
     }
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Water"))
         {
@@ -464,9 +494,7 @@ public class PlayerController_2D : MonoBehaviour
                 transform.position = _preGroundPos;
                 _rb.velocity = Vector3.zero;
             }
-            
         }
-        
     }
 
     private void OnTriggerStay(Collider other)
@@ -744,4 +772,31 @@ public class PlayerController_2D : MonoBehaviour
     }
 
 
+    public void Damage(int value)
+    {
+        Hp -= value;
+        StartCoroutine("CameraShake");
+    }
+
+    public void Death()
+    {
+        Destroy(gameObject);
+    }
+
+    IEnumerator CameraShake()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            _movecamera.transform.Translate(moveX, moveY, 0);
+            moveX *= -1;
+            moveY *= -1;
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+}
+
+public interface IDamageable
+{
+    public void Damage(int value);
+    public void Death();
 }
