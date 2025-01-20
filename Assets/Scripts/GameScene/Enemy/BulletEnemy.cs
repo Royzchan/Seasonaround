@@ -60,7 +60,6 @@ public class BulletEnemy : MonoBehaviour
         }
 
         MoveUpAndDown();
-
     }
 
     // 攻撃
@@ -112,5 +111,26 @@ public class BulletEnemy : MonoBehaviour
     {
         float newY = _initialY + Mathf.Sin(Time.time * _moveSpeed) * _moveRange;
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+    }
+
+    // プレイヤーに踏まれたときの処理
+    private void OnCollisionEnter(Collision collision)
+    {
+        // プレイヤーが敵に接触した場合
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // プレイヤーが敵の上に乗ったかどうかを確認
+            if (collision.contacts[0].point.y > transform.position.y)
+            {
+                Die();  // 上から踏まれた場合は敵が死ぬ
+            }
+        }
+    }
+
+    // 敵が死亡する処理
+    private void Die()
+    {
+        // 敵が死亡したときの処理（例：アニメーションを再生したり、オブジェクトを非表示にしたり）
+        Destroy(gameObject);  // 敵を消す
     }
 }
