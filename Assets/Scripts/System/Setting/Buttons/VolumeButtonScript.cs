@@ -18,8 +18,6 @@ public class VolumeButtonScript : SettingButtonScript
     private bool _isSelect = false;
     private bool _isLeft = false;
     private bool _isRight = false;
-    //エンターボタンが被ってしまったので特別措置
-    private bool _isReturnFlag = false;
     [SerializeField, Header("ボリュームスライダー")]
     private Slider _soundSlider;
     float _pressRightTimer = 0f;

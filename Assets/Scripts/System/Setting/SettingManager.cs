@@ -93,6 +93,7 @@ public class SettingManager : MonoBehaviour
         {
             Destroy(this);
         }
+        _backTransform.localScale = Vector3.zero;
         _player = FindAnyObjectByType<PlayerController_2D>();
         StartCoroutine(CloseSetting());
         gameObject.SetActive(false);

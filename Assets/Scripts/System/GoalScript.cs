@@ -52,7 +52,7 @@ public class GoalScript : MonoBehaviour
         _transition.gameObject.SetActive(true);
         _transition.DOSizeDelta(new Vector2(890f, 500f), 1f);
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(_sceneName);
+        FadeManager.Instance.LoadScene(_sceneName,0.2f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,6 +61,8 @@ public class GoalScript : MonoBehaviour
         {
             //追従を切る
             _cameraScript.enabled = false;
+            //終了時にリスポーン地点のリセット
+            FindAnyObjectByType<RestartManager>().ResetRestartPos();
             StartCoroutine(Goal());
         }
     }

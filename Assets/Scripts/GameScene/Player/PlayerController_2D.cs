@@ -220,6 +220,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     void Start()
     {
+        RestartManager rm = FindAnyObjectByType<RestartManager>();
+        transform.position = rm.GetRestartPosition();
+        Camera.main.transform.position = transform.position + Camera.main.transform.position; 
         _preGroundPos = transform.position;
         //リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
