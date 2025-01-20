@@ -8,7 +8,7 @@ public class SystemManager : MonoBehaviour
 {
     [SerializeField, Header("ポーズキー")]
     private InputAction _poseAction;
-
+    static bool _hasAction;
     private void OnEnable()
     {
         _poseAction?.Enable();
@@ -16,29 +16,34 @@ public class SystemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _poseAction.started += (InputAction.CallbackContext callback) =>
+        if(!_hasAction)
         {
-            SettingManager setting = SettingManager.GetInstance();
-            if(setting != null)
+            _poseAction.started += (InputAction.CallbackContext callback) =>
             {
-                if(setting.SelectPage != 0)
+                SettingManager setting = SettingManager.GetInstance();
+                if (setting != null)
                 {
-                    setting.ChangePage(0);
-                }
-                else
-                {
-                    if(setting.gameObject.activeSelf)
+                    if (setting.SelectPage != 0)
                     {
-                        StartCoroutine(setting.CloseSetting());
+                        setting.ChangePage(0);
                     }
                     else
                     {
-                        setting.gameObject.SetActive(true);
-                    }                    
+                        if (setting.gameObject.activeSelf)
+                        {
+                            StartCoroutine(setting.CloseSetting());
+                        }
+                        else
+                        {
+                            setting.gameObject.SetActive(true);
+                        }
+                    }
+
                 }
-                
-            }
-            
-        };
+
+            };
+            _hasAction = true;
+        }
+        
     }
 }

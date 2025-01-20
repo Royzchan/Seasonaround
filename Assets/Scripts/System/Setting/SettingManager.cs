@@ -28,7 +28,7 @@ public class SettingManager : MonoBehaviour
     [SerializeField, Header("選択のキーコン")]
     private InputAction _selectAction;
 
-    [SerializeField, Header("")]
+    [SerializeField, Header("背景のトランスフォーム")]
     RectTransform _backTransform;
    
     //現在開いているページ

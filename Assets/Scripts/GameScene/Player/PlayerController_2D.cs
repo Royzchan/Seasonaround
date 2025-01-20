@@ -102,7 +102,8 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     StaminaUIScript _staminaUI;
     [SerializeField, Header("動物のモデル")]
     private GameObject[] _animalModels;
-
+    [SerializeField,Header("変身用の煙")]
+    private ParticleSystem _smokeParticle;
     bool _isGround = false;
     public bool IsGround {  get { return _isGround; } }
 
@@ -492,8 +493,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             }
             else
             {
-                transform.position = _preGroundPos;
-                _rb.velocity = Vector3.zero;
+                Death();
             }
         }
     }
@@ -740,8 +740,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 //動物のモデルを消す
                 _animalModels[i].SetActive(false);
             }
+            
         }
-
+        _smokeParticle.Play();
         _hitAnimals.Add(animal);
         for (int i = 0; i < _stageAnimals.Length; ++i)
         {
@@ -767,6 +768,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         _animalModels[(int)_nowAnimal].SetActive(false);
         //変更
         _nowAnimal = animal;
+        _smokeParticle.Play();
         _animalModels[(int)_nowAnimal].SetActive(true);
         _animator = _animalModels[(int)_nowAnimal].GetComponent<Animator>();
         SetState((int)animal);

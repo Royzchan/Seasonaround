@@ -25,6 +25,7 @@ public class GoalScript : MonoBehaviour
     {
         _player = FindAnyObjectByType<PlayerController_2D>();
         _cameraScript = FindAnyObjectByType<CameraFollow2D>();
+        _clearText.transform.localScale = Vector3.zero;
     }
 
     // Update is called once per frame
