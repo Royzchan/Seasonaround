@@ -144,8 +144,8 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     [SerializeField, Header("óhÇÁÇ∑ÉJÉÅÉâ")]
     public GameObject _movecamera;
-    private float moveX;
-    private float moveY;
+    private float moveCameraX;
+    private float moveCameraY;
 
     // óLå¯âª
     private void OnEnable()
@@ -239,8 +239,8 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
         Hp = _maxHp;
 
-        moveX = 1;
-        moveY = 1;
+        moveCameraX = 1;
+        moveCameraY = 1;
     }
 
     void Update()
@@ -458,13 +458,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             {
                 Destroy(collision.gameObject);
             }
-        }
-
-        if (collision.gameObject.CompareTag ("Death"))
-        {
-            _hp = 0;
-        }
-            
+        } 
     }
 
     private void OnCollisionStay(Collision collision)
@@ -787,9 +781,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     {
         for (int i = 0; i < 10; i++)
         {
-            _movecamera.transform.Translate(moveX, moveY, 0);
-            moveX *= -1;
-            moveY *= -1;
+            _movecamera.transform.Translate(moveCameraX, moveCameraY, 0);
+            moveCameraX *= -1;
+            moveCameraY *= -1;
             yield return new WaitForSeconds(0.01f);
         }
     }
