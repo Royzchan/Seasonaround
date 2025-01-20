@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletEnemy : MonoBehaviour
@@ -21,13 +19,23 @@ public class BulletEnemy : MonoBehaviour
 
     private bool _canAttack = true;
 
-    //ア二メーションのステータス
+    // アニメーションのステータス
     private string _attackStr = "isAttack";
+
+    // 待機中の上下の動きに関する変数
+    [SerializeField, Header("待機中の上下移動の範囲")]
+    private float _moveRange = 0.5f;
+    [SerializeField, Header("上下移動の速さ")]
+    private float _moveSpeed = 2f;
+    private float _initialY;
+
+    private bool isAttacking = false;  // 攻撃中かどうかのフラグ
 
     void Start()
     {
         _player = GameObject.FindWithTag("Player");
         _animator = GetComponent<Animator>();
+        _initialY = transform.position.y; // 初期Y座標を保存
     }
 
     void Update()
@@ -50,16 +58,20 @@ public class BulletEnemy : MonoBehaviour
 
             CheckPlayerDistance();
         }
+
+        MoveUpAndDown();
+
     }
 
-    //攻撃
+    // 攻撃
     public void Attack()
     {
-        //弾を生成
+        // 弾を生成
         Instantiate(bulletPrefab, bulletPosition.position, bulletPosition.rotation);
+        isAttacking = true;  // 攻撃中フラグをオン
     }
 
-    //距離チェック
+    // 距離チェック
     private void CheckPlayerDistance()
     {
         var myPos = this.transform.position;
@@ -92,5 +104,13 @@ public class BulletEnemy : MonoBehaviour
     public void EndAttackAnim()
     {
         _animator.SetBool(_attackStr, false);
+        isAttacking = false;  // 攻撃終了時にフラグをオフ
+    }
+
+    // 待機中の上下移動処理
+    private void MoveUpAndDown()
+    {
+        float newY = _initialY + Mathf.Sin(Time.time * _moveSpeed) * _moveRange;
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 }
