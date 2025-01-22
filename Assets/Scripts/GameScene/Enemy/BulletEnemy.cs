@@ -130,7 +130,6 @@ public class BulletEnemy : MonoBehaviour
     // 敵が死亡する処理
     private void Die()
     {
-        // 敵が死亡したときの処理（例：アニメーションを再生したり、オブジェクトを非表示にしたり）
         Destroy(gameObject);  // 敵を消す
     }
 }

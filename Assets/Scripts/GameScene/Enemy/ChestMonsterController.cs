@@ -32,8 +32,6 @@ public class ChestMonsterController : MonoBehaviour
     private float _searchTimeCount = 0.0f;//プレイヤーを探す時間
     private float _moveDirection = 1.0f;  //プレイヤーの進む向き
 
-
-
     //アニメーションのstring
     private string _isIdle = "isIdleChest";
     private string _isDiscovery = "isDiscovery";
@@ -166,5 +164,25 @@ public class ChestMonsterController : MonoBehaviour
     {
         transform.eulerAngles = new Vector3(0, -90f, 0);
         _moveDirection = -1;
+    }
+
+    // 追記：プレイヤーに踏まれた際の処理
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // プレイヤーが上から踏みつけたかを判定する
+            if (collision.transform.position.y > transform.position.y + 0.5f) // 0.5fは踏みつけ判定の高さの閾値
+            {
+                Die();
+            }
+        }
+    }
+
+    private void Die()
+    {
+        // 死亡時の処理を記述（例：オブジェクトを非アクティブにする、破壊する等）
+        Destroy(gameObject);
+        Debug.Log("宝箱モンスターが踏みつけられて死んだ！");
     }
 }
