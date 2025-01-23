@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: fd9902976f65cc348ba829c6120f942b, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -123,6 +123,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &9037992
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 130190, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_Name
+      value: FadeManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474238, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
 --- !u!1 &202560535 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 873531700701352353, guid: 28d0a30d6aed6fc4c8ca473413f70c24, type: 3}
@@ -546,6 +603,14 @@ PrefabInstance:
     - target: {fileID: 2532266990499707331, guid: 937171388864f2d44b75e2a21ec0b85f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284354039840250441, guid: 937171388864f2d44b75e2a21ec0b85f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798787766065239934, guid: 937171388864f2d44b75e2a21ec0b85f, type: 3}
+      propertyPath: _sceneName
+      value: Winter_1
       objectReference: {fileID: 0}
     - target: {fileID: 4582657678015795835, guid: 937171388864f2d44b75e2a21ec0b85f, type: 3}
       propertyPath: m_Name
@@ -1121,9 +1186,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1264638933701610005, guid: 529f50990cfa57b4e94c67039ded0512, type: 3}
+      propertyPath: _sceneName
+      value: Spring_1
+      objectReference: {fileID: 0}
     - target: {fileID: 2474449426382055034, guid: 529f50990cfa57b4e94c67039ded0512, type: 3}
       propertyPath: m_Name
       value: SelectMap_Spring
+      objectReference: {fileID: 0}
+    - target: {fileID: 7925327728775739672, guid: 529f50990cfa57b4e94c67039ded0512, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1138,6 +1211,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 92049692468006387, guid: 4123d2d346b8f824ab64a883e6e750f0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200766976176160717, guid: 4123d2d346b8f824ab64a883e6e750f0, type: 3}
+      propertyPath: _sceneName
+      value: Summer_1
+      objectReference: {fileID: 0}
     - target: {fileID: 2252028113379778027, guid: 4123d2d346b8f824ab64a883e6e750f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17
@@ -1195,6 +1276,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 832756804906758757, guid: 84ca94159f2fdb445bd4e2b4fb6f902a, type: 3}
+      propertyPath: _sceneName
+      value: Autumn_1
+      objectReference: {fileID: 0}
     - target: {fileID: 3315206582000740073, guid: 84ca94159f2fdb445bd4e2b4fb6f902a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1239,6 +1324,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectMap_Autumn
       objectReference: {fileID: 0}
+    - target: {fileID: 5023505098968576692, guid: 84ca94159f2fdb445bd4e2b4fb6f902a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1256,3 +1345,4 @@ SceneRoots:
   - {fileID: 2030494878327325420}
   - {fileID: 3866825177618395654}
   - {fileID: 880360405195145833}
+  - {fileID: 9037992}

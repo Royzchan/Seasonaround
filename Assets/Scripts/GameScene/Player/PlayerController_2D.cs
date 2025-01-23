@@ -102,13 +102,13 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     StaminaUIScript _staminaUI;
     [SerializeField, Header("動物のモデル")]
     private GameObject[] _animalModels;
-    [SerializeField,Header("変身用の煙")]
+    [SerializeField, Header("変身用の煙")]
     private ParticleSystem _smokeParticle;
     bool _isGround = false;
-    public bool IsGround {  get { return _isGround; } }
+    public bool IsGround { get { return _isGround; } }
 
     public bool IsSwimming { get => _isSwimming; set => _isSwimming = value; }
-    
+
     bool _isSwimming = false;
     bool _isGrap = false;
     bool _isMoveGrap = false;
@@ -147,6 +147,8 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     public GameObject _movecamera;
     private float moveCameraX;
     private float moveCameraY;
+    [SerializeField]
+    private Vector3 _cameraDistance = new Vector3(0f, 0f, 0f);
 
     // 有効化
     private void OnEnable()
@@ -195,11 +197,11 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     void LookZoomObj(Vector3 zoomObjPos)
     {
-        if(zoomObjPos.x > transform.position.x)
+        if (zoomObjPos.x > transform.position.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        else if(zoomObjPos.x < transform.position.x)
+        else if (zoomObjPos.x < transform.position.x)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
@@ -222,20 +224,20 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     void Start()
     {
         RestartManager rm = FindAnyObjectByType<RestartManager>();
-        if(rm != null)
+        if (rm != null)
         {
             transform.position = rm.GetRestartPosition();
         }
-        
-        Camera.main.transform.position = transform.position + Camera.main.transform.position; 
+
+        Camera.main.transform.position = transform.position + _cameraDistance;
         _preGroundPos = transform.position;
         //リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
         //モデルのActiveなやつからAnimatorを取得
-        foreach(var body in _animalModels)
+        foreach (var body in _animalModels)
         {
 
-            if(body != null && body.activeSelf)
+            if (body != null && body.activeSelf)
             {
                 _animator = body.GetComponent<Animator>();
                 break;
@@ -280,6 +282,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 if (_jumpNum < _canJumpNum)
                 {
                     //上に力を加える
+                    _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
                     _rb.AddForce(transform.rotation * new Vector3(0f, _jumpPower, 0f), ForceMode.Impulse);
                     //ジャンプした回数をプラス
                     _jumpNum++;
@@ -317,7 +320,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             RaycastHit hit;
 
             // レイキャストを実行して、何かに当たったかを確認
-            if (Physics.Raycast(ray, out hit,3f))
+            if (Physics.Raycast(ray, out hit, 3f))
             {
                 //レイが敵に当たっていたら
                 if (hit.collider.gameObject.CompareTag("Enemy"))
@@ -415,14 +418,14 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             {
                 _usedStamina = false;
             }
-            
+
         }
         else
         {
             //回復
             _nowStamina += _healStamina * Time.deltaTime;
         }
-        _nowStamina = Mathf.Clamp(_nowStamina,0,_maxStamina);
+        _nowStamina = Mathf.Clamp(_nowStamina, 0, _maxStamina);
         _staminaUI.GaugeUpdate(_nowStamina, _maxStamina);
     }
 
@@ -433,14 +436,14 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             _preGroundPos = transform.position;
         }
         float speed = _speed;
-        if(_isSwimming)
+        if (_isSwimming)
         {
             speed = _swimSpeed;
         }
         //速度を横移動の値に
-        if(Mathf.Sign(_rb.velocity.x) == Mathf.Sign(_inputValueX))
+        if (Mathf.Sign(_rb.velocity.x) == Mathf.Sign(_inputValueX))
         {
-            if(Mathf.Abs(_rb.velocity.x) < _maxSpeed)
+            if (Mathf.Abs(_rb.velocity.x) < _maxSpeed)
             {
                 _rb.velocity += transform.rotation * new Vector3(_inputValueX * speed, 0f, 0f);
             }
@@ -453,10 +456,10 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         //{
         //    _rb.velocity = new Vector3(Mathf.Clamp(_rb.velocity.x, -_maxSpeed, _maxSpeed), _rb.velocity.y) + _windPower;
         //}
-        
+
         WindPowDown();
     }
-    
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -466,27 +469,27 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             {
                 Destroy(collision.gameObject);
             }
-        } 
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-          
+
             _jumpNum = 0;
             _jumpNow = false;
             _isFly = false;
             _isGround = true;
 
-            
+
         }
     }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Water"))
         {
-            if(_nowAnimal == Animal.Gecko)
+            if (_nowAnimal == Animal.Gecko)
             {
                 _isSwimming = true;
                 _rb.drag = _waterDrag;
@@ -501,7 +504,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     private void OnTriggerStay(Collider other)
     {
         //ツタに当たってる間その情報を取得
-        if(other.CompareTag("Grap") && _grapData == null) 
+        if (other.CompareTag("Grap") && _grapData == null)
         {
             _grapData = other.GetComponent<GrapGimmick>();
         }
@@ -518,7 +521,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             _jumpNum = _canJumpNum;
         }
         //移動アニメーション中はストップ
-        else if(other.CompareTag("Grap") && !_isMoveGrap)
+        else if (other.CompareTag("Grap") && !_isMoveGrap)
         {
             _grapData = null;
         }
@@ -526,9 +529,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground") )
+        if (collision.gameObject.CompareTag("Ground"))
         {
-           
+
             _isGround = false;
         }
     }
@@ -604,14 +607,14 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         Vector3 grapPos = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
         float timer = 0f;
         //距離が0.3f,又は時間が0.8fをすぎるまで繰り返す
-        while(true)
+        while (true)
         {
             timer += Time.deltaTime;
             //deltaTimeの分待機(この部分・・・なんか変・・・)
             yield return new WaitForSeconds(Time.deltaTime);
             grapPos = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
             //移動
-            transform.position = Vector3.Lerp(prePos,grapPos,timer/ 0.8f);
+            transform.position = Vector3.Lerp(prePos, grapPos, timer / 0.8f);
 
             if (timer > 0.8f || Vector3.Distance(transform.position, _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos) < 0.3f)
             {
@@ -629,13 +632,13 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     void CreateGrapJoint()
     {
-        if(_grapData != null)
+        if (_grapData != null)
         {
             _joint = gameObject.AddComponent<HingeJoint>();
             _joint.axis = new Vector3(0, 0, 1f);
             _joint.connectedBody = _grapData.gameObject.GetComponent<Rigidbody>();
         }
-       
+
     }
     //動物の固有アクション
     private void AnimalAction()
@@ -670,7 +673,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 Ray ray = new Ray(transform.position, Vector3.right);
                 Debug.DrawRay(transform.position, Vector3.right * rayLength, Color.red, 2f);
                 RaycastHit hit;
-                if(_nowStamina <= 0)
+                if (_nowStamina <= 0)
                 {
                     transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
                     _rb.useGravity = true;
@@ -711,7 +714,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             //雀
             case Animal.Sparrow:
                 //_rb.velocity = new Vector3((_speed * _inputValueX), _flySpeed, 0f);
-                _rb.AddForce(new Vector3(0,_flySpeed,0));
+                _rb.AddForce(new Vector3(0, _flySpeed, 0));
                 _isFly = true;
                 break;
         }
@@ -740,7 +743,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 //動物のモデルを消す
                 _animalModels[i].SetActive(false);
             }
-            
+
         }
         _smokeParticle.Play();
         _hitAnimals.Add(animal);
