@@ -230,6 +230,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         }
 
         Camera.main.transform.position = transform.position + _cameraDistance;
+        _movecamera = Camera.main.gameObject;
         _preGroundPos = transform.position;
         //リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
