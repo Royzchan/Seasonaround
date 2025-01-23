@@ -31,18 +31,17 @@ public class SystemManager : MonoBehaviour
                     {
                         if (setting.gameObject.activeSelf)
                         {
-                            StartCoroutine(setting.CloseSetting());
+                            setting.StartCoroutine(setting.CloseSetting());
                         }
                         else
                         {
                             setting.gameObject.SetActive(true);
                         }
                     }
-
                 }
-
             };
             _hasAction = true;
+        
         }
         
     }
