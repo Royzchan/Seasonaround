@@ -13,7 +13,7 @@ public class GameOverScript : MonoBehaviour
     // 目標の彩度
     private float targetSaturation = 0;
     // フェードの速さ
-    private float fadeSpeed = 2.0f;
+    private float fadeSpeed = 1.5f;
 
     // プレイヤーのスクリプトを参照
     public PlayerController_2D player;
@@ -67,20 +67,11 @@ public class GameOverScript : MonoBehaviour
 
         targetSaturation = (targetSaturation == 0) ? -100 : 0;
 
-        // 現在のSaturationを目標値にスムーズに近づける
-        if (colorGrading != null)
-        {
-            colorGrading.saturation.value = Mathf.Lerp(colorGrading.saturation.value, targetSaturation, Time.deltaTime * fadeSpeed);
-        }
-
         // ゲームオーバーUIを表示
         if (gameOverText != null)
         {
             gameOverText.gameObject.SetActive(true);
             gameOverText.text = "GAME OVER";
         }
-
-        // 他のゲームオーバー処理をここに追加可能
-        Debug.Log("Game Over");
     }
 }
