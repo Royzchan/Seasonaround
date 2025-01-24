@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController_3D : MonoBehaviour
 {
     private Rigidbody _rb;
+    private FadeManager _fadeManager;
 
     [SerializeField, Header("プレイヤーの移動速度")]
     private float _speed = 5.0f;
@@ -50,6 +51,7 @@ public class PlayerController_3D : MonoBehaviour
     {
         // リジッドボディを取得
         _rb = GetComponent<Rigidbody>();
+        _fadeManager = FindAnyObjectByType<FadeManager>();
 
         // カメラの参照が設定されていない場合、メインカメラを取得
         if (_cameraTransform == null)
@@ -60,6 +62,15 @@ public class PlayerController_3D : MonoBehaviour
 
     void Update()
     {
+        if (_fadeManager != null)
+        {
+            if (_fadeManager.isFading)
+            {
+                _rb.velocity = Vector3.zero;
+                _inputVector = Vector2.zero;
+                return;
+            }
+        }
         // 移動入力の値を保存
         _inputVector = _moveAction.ReadValue<Vector2>();
 
