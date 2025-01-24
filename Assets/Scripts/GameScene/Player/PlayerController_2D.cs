@@ -150,6 +150,11 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     [SerializeField]
     private Vector3 _cameraDistance = new Vector3(0f, 0f, 0f);
 
+    // ゲームオーバースクリプトを参照
+    public GameOverScript gameOverScript;
+
+    
+
     // 有効化
     private void OnEnable()
     {
@@ -495,10 +500,10 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 _isSwimming = true;
                 _rb.drag = _waterDrag;
             }
-            else
-            {
-                Death();
-            }
+        }
+        else if (other.CompareTag("Death"))
+        {
+            Death();
         }
     }
 
@@ -787,6 +792,17 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     public void Death()
     {
+        // GameOverScriptを呼び出してゲームオーバー処理を実行
+        if (gameOverScript != null)
+        {
+            gameOverScript.SendMessage("GameOver");
+        }
+        else
+        {
+            Debug.LogError("GameOverScriptが設定されていません！");
+        }
+
+        // プレイヤーオブジェクトを破壊
         Destroy(gameObject);
     }
 
