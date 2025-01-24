@@ -201,6 +201,7 @@ MonoBehaviour:
   - {fileID: 138650935}
   - {fileID: 809596189}
   - {fileID: 1983498135}
+  _isDebug: 1
 --- !u!4 &225562975
 Transform:
   m_ObjectHideFlags: 0
@@ -732,7 +733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3798787766065239934, guid: 937171388864f2d44b75e2a21ec0b85f, type: 3}
       propertyPath: _sceneName
-      value: Winter 1
+      value: Winter_1
       objectReference: {fileID: 0}
     - target: {fileID: 4582657678015795835, guid: 937171388864f2d44b75e2a21ec0b85f, type: 3}
       propertyPath: m_Name
@@ -1311,6 +1312,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1264638933701610005, guid: 529f50990cfa57b4e94c67039ded0512, type: 3}
+      propertyPath: _sceneName
+      value: Spring_1
+      objectReference: {fileID: 0}
     - target: {fileID: 2474449426382055034, guid: 529f50990cfa57b4e94c67039ded0512, type: 3}
       propertyPath: m_Name
       value: SelectMap_Spring
@@ -1338,6 +1343,10 @@ PrefabInstance:
     - target: {fileID: 92049692468006387, guid: 4123d2d346b8f824ab64a883e6e750f0, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200766976176160717, guid: 4123d2d346b8f824ab64a883e6e750f0, type: 3}
+      propertyPath: _sceneName
+      value: Summer_1
       objectReference: {fileID: 0}
     - target: {fileID: 2252028113379778027, guid: 4123d2d346b8f824ab64a883e6e750f0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1401,7 +1410,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 832756804906758757, guid: 84ca94159f2fdb445bd4e2b4fb6f902a, type: 3}
       propertyPath: _sceneName
-      value: Autumn 1
+      value: Autumn_1
       objectReference: {fileID: 0}
     - target: {fileID: 3315206582000740073, guid: 84ca94159f2fdb445bd4e2b4fb6f902a, type: 3}
       propertyPath: m_LocalPosition.x
