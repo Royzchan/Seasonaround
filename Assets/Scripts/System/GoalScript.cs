@@ -21,6 +21,8 @@ public class GoalScript : MonoBehaviour
     [SerializeField,Header("移行先のシーン")]
     string _sceneName;
     CameraFollow2D _cameraScript;
+    [SerializeField, Header("PlayerPrefsのKey")]
+    string _seasonKey;
     private void Start()
     {
         _player = FindAnyObjectByType<PlayerController_2D>();
@@ -36,6 +38,8 @@ public class GoalScript : MonoBehaviour
 
     IEnumerator Goal()
     {
+        //追従を切る
+        _cameraScript.enabled = false;
         //プレイヤーの位置を取得
         Transform playerPos = _player.transform;
         //プレイヤーは操作不能
@@ -60,10 +64,13 @@ public class GoalScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //追従を切る
-            _cameraScript.enabled = false;
-            //終了時にリスポーン地点のリセット
-            FindAnyObjectByType<RestartManager>().ResetRestartPos();
+            var restart = FindAnyObjectByType<RestartManager>();
+            if (restart != null)
+            {
+                //終了時にリスポーン地点のリセット
+                restart.ResetRestartPos();
+            }
+            PlayerPrefs.SetInt(_seasonKey,0);
             StartCoroutine(Goal());
         }
     }
