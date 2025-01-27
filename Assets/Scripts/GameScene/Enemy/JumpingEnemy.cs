@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 public class JumpingEnemy : MonoBehaviour
@@ -8,6 +7,13 @@ public class JumpingEnemy : MonoBehaviour
     private Rigidbody _rb;
 
     GameObject player;
+
+    //アニメーター
+    [SerializeField]
+    private Animator _animator;
+
+    //攻撃のアニメーションの判定
+    private string _isJump = "JumpNow";
 
     [SerializeField, Header("プレイヤーとの距離")]
     private float _distance = 5f;
@@ -26,6 +32,7 @@ public class JumpingEnemy : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         _rb = GetComponent<Rigidbody>();
+        _animator.SetBool(_isJump, false);
     }
 
     // Update is called once per frame
@@ -35,6 +42,17 @@ public class JumpingEnemy : MonoBehaviour
         {
             float _dis = Vector3.Distance(this.transform.position, player.transform.position);
             Jump(_dis);
+        }
+
+        if (transform.position.x > player.transform.position.x)
+        {
+            // X軸がプレイヤーより小さい場合、スケールを反転
+            transform.localScale = new Vector3(50f, 50f, 50f);
+        }
+        else
+        {
+            // 元のスケールに戻す
+            transform.localScale = new Vector3(50f, 50f, -50f);
         }
     }
 
@@ -47,7 +65,13 @@ public class JumpingEnemy : MonoBehaviour
             {
                 _rb.AddForce(0f, _jumpPower, 0f, ForceMode.Impulse);
                 _jumpNum++;
+                //ジャンプのアニメーション
+                Invoke("JumpAnimation", 0.5f);
             }
+        }
+        else // プレイヤーとの距離が設定した範囲を超えた場合
+        {
+            _animator.SetBool(_isJump, false);
         }
     }
 
@@ -57,5 +81,10 @@ public class JumpingEnemy : MonoBehaviour
         {
             _jumpNum = 0;
         }
+    }
+
+    void JumpAnimation()
+    {
+        _animator.SetBool(_isJump, true);
     }
 }

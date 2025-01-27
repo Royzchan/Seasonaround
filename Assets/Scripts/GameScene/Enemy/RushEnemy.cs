@@ -27,9 +27,16 @@ public class RushEnemy : MonoBehaviour
     [SerializeField, Header("待機時間")]
     private float _waitTime = 1f;
 
+    [SerializeField, Header("突進時間")]
+    private float _rushDuration = 3f;  // 突進する時間（秒）
+
     private float _waitCount = 0f; // 待機時間のタイマー
     private float _pauseTimer = 0f; // 停止中のタイマー
+    private float _rushTimer = 0f; // 突進中の経過時間
     private bool isRushing = false;
+    private bool isStandbay = false;
+    private float rushDirectionX; // X軸方向のみの突進方向
+    private Vector3 rushStartPosition; // 突進開始時の位置
 
     // Start is called before the first frame update
     void Start()
@@ -47,11 +54,26 @@ public class RushEnemy : MonoBehaviour
             float _dis = Vector3.Distance(this.transform.position, player.transform.position);
             Rush(_dis);
         }
+
+        if (!isRushing)
+        {
+            if (transform.position.x > player.transform.position.x)
+            {
+                // X軸がプレイヤーより小さい場合、スケールを反転
+                transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            }
+            else
+            {
+                // 元のスケールに戻す
+                transform.localScale = new Vector3(1.3f, 1.3f, -1.3f);
+            }
+        }
     }
 
     void GoAttack()
     {
-        isRushing = true; // 突進を開始
+        isRushing = true;
+        print("突進開始");
     }
 
     // 突進関数
@@ -69,7 +91,7 @@ public class RushEnemy : MonoBehaviour
             {
                 //突進のアニメーション開始
                 _animator.SetBool(_isAttack, true);
-                print("突進開始");
+                Invoke("GoAttack", 1f);
             }
         }
         else // プレイヤーとの距離が設定した範囲を超えた場合
@@ -79,11 +101,27 @@ public class RushEnemy : MonoBehaviour
             _pauseTimer = _pauseDuration; // 一時停止タイマーを設定
         }
 
-        // プレイヤーの方向に向かって移動
+        // 突進中は最初に決めた方向に向かって移動し続ける
         if (isRushing)
         {
-            Vector3 direction = (player.transform.position - transform.position).normalized;
-            transform.position += direction * _rushSpeed * Time.deltaTime;
+            // 突進時間が経過したら突進を停止
+            if (_rushTimer >= _rushDuration)
+            {
+                isRushing = false;
+                _pauseTimer = _pauseDuration; // 一時停止タイマーを設定
+                print("突進終了（時間経過）");
+
+                // プレイヤーの位置に基づいて突進方向を決定（最初の一度だけ)
+                rushDirectionX = player.transform.position.x > transform.position.x ? 1f : -1f;
+                rushStartPosition = transform.position; // 突進開始時の位置を記録
+                _rushTimer = 0f; // 突進時間のリセット
+            }
+            else
+            {
+                // 突進中に経過時間を増加
+                _rushTimer += Time.deltaTime;
+                transform.position += new Vector3(rushDirectionX * _rushSpeed * Time.deltaTime, 0f, 0f);
+            }
         }
     }
 
