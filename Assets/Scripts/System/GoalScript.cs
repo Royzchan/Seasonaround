@@ -21,10 +21,13 @@ public class GoalScript : MonoBehaviour
     [SerializeField,Header("移行先のシーン")]
     string _sceneName;
     CameraFollow2D _cameraScript;
+    [SerializeField, Header("PlayerPrefsのKey")]
+    string _seasonKey;
     private void Start()
     {
         _player = FindAnyObjectByType<PlayerController_2D>();
         _cameraScript = FindAnyObjectByType<CameraFollow2D>();
+        _clearText.transform.localScale = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -35,6 +38,8 @@ public class GoalScript : MonoBehaviour
 
     IEnumerator Goal()
     {
+        //追従を切る
+        _cameraScript.enabled = false;
         //プレイヤーの位置を取得
         Transform playerPos = _player.transform;
         //プレイヤーは操作不能
@@ -52,15 +57,20 @@ public class GoalScript : MonoBehaviour
         _transition.gameObject.SetActive(true);
         _transition.DOSizeDelta(new Vector2(890f, 500f), 1f);
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(_sceneName);
+        FadeManager.Instance.LoadScene(_sceneName,0.2f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //追従を切る
-            _cameraScript.enabled = false;
+            var restart = FindAnyObjectByType<RestartManager>();
+            if (restart != null)
+            {
+                //終了時にリスポーン地点のリセット
+                restart.ResetRestartPos();
+            }
+            PlayerPrefs.SetInt(_seasonKey,0);
             StartCoroutine(Goal());
         }
     }

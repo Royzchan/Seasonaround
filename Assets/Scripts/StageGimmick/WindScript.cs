@@ -36,8 +36,7 @@ public class WindScript : MonoBehaviour
     }
     // Update is called once per frame
     void Update()
-    {
-        Debug.Log(transform.parent.forward * _windPower);
+    { 
         if (_switch != null)
         {
             //スイッチの出力を_isActiveに
