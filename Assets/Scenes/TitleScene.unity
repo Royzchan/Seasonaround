@@ -658,6 +658,51 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 3}
+--- !u!1 &682016626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 682016628}
+  - component: {fileID: 682016627}
+  m_Layer: 0
+  m_Name: OpeningOneTime
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &682016627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682016626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67f1387aace57249958bf21d66b065a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasWatchedOpening: 0
+--- !u!4 &682016628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682016626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &801546960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,7 +1360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477c03e746a2a7145b154f3ca3463366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: OpeningMovieScene
+  _openingScene: OpeningMovieScene
+  _selectScene: SelectScene
 --- !u!4 &1980501540
 Transform:
   m_ObjectHideFlags: 0
@@ -1344,3 +1390,4 @@ SceneRoots:
   - {fileID: 1154083507}
   - {fileID: 1661731329}
   - {fileID: 574322430}
+  - {fileID: 682016628}

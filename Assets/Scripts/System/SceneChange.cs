@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class SceneChange : MonoBehaviour
 {
     [SerializeField]
-    string _sceneName;
+    string _openingScene;
+    [SerializeField]
+    string _selectScene;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +24,22 @@ public class SceneChange : MonoBehaviour
 
     public void ChangeScene()
     {
-        FadeManager.Instance.LoadScene(_sceneName,1.0f);
+        if (!OpeningOneTime.Instance.hasWatchedOpening)
+        {
+            OpeningOneTime.Instance.hasWatchedOpening = true; // フラグを更新
+            FadeManager.Instance.LoadScene(_openingScene, 1.0f);
+        }
+        else
+        {
+            FadeManager.Instance.LoadScene(_selectScene, 1.0f);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            FadeManager.Instance.LoadScene(_sceneName, 1.0f);
+            FadeManager.Instance.LoadScene(_selectScene, 1.0f);
         }
     }
 }
