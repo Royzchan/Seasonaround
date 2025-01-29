@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class GoalScript : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class GoalScript : MonoBehaviour
         _player = FindAnyObjectByType<PlayerController_2D>();
         _cameraScript = FindAnyObjectByType<CameraFollow2D>();
         _clearText.transform.localScale = Vector3.zero;
+        _transition.parent.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -53,9 +55,14 @@ public class GoalScript : MonoBehaviour
         //Šg‘å
         _clearText.transform.DOScale(1f,_textZoomTime - _textZoomTime * 0.2f).SetEase(Ease.OutBounce);
         yield return new WaitForSeconds(_textZoomTime);
+        _transition.parent.gameObject.SetActive(true);
+        //Mask‚ÌXV‚ÌŠÖŒW‚Åˆêu‰æ–Ê‚ª^‚ÁˆÃ‚É‚¿‚ç‚Â‚­‚½‚ßA“§–¾‚É‚µ‚Äˆêu‘Ò‹@Œã,–ß‚·
+        _transition.parent.GetComponent<Image>().color -= new Color(0,0,0,255); 
+        yield return new WaitForEndOfFrame();
+        _transition.parent.GetComponent<Image>().color += new Color(0, 0, 0, 255);
         //‘JˆÚ—p‰æ‘œ‚ğTrue‚É‚µ‚ÄŠg‘å
-        _transition.gameObject.SetActive(true);
-        _transition.DOSizeDelta(new Vector2(890f, 500f), 1f);
+        //.gameObject.SetActive(true);
+        _transition.DOSizeDelta(new Vector2(0,0), 1f);
         yield return new WaitForSeconds(1.5f);
         FadeManager.Instance.LoadScene(_sceneName,0.2f);
     }
