@@ -6,72 +6,86 @@ using UnityEngine.UI; // UI用
 
 public class GameOverScript : MonoBehaviour
 {
-    // ポストプロセスボリュームを指定
     public PostProcessVolume postProcessVolume;
-    // Color Gradingエフェクト
     private ColorGrading colorGrading;
-    // 目標の彩度
     private float targetSaturation = 0;
-    // フェードの速さ
     private float fadeSpeed = 1.5f;
 
-    // プレイヤーのスクリプトを参照
     public PlayerController_2D player;
     private bool isGameOver = false;
 
-    // ゲームオーバー時のUI表示
     public Text gameOverText;
 
-    // Start is called before the first frame update
+    private Animator playerAnimator;
+
     void Start()
     {
-        // PostProcessVolumeからColorGradingの設定を取得
         if (postProcessVolume.profile.TryGetSettings(out ColorGrading cg))
         {
             colorGrading = cg;
         }
 
-        // ゲームオーバーのUIを非表示に設定
         if (gameOverText != null)
         {
             gameOverText.gameObject.SetActive(false);
         }
 
-        // プレイヤーの参照が正しく設定されているか確認
         if (player == null)
         {
             Debug.LogError("Playerスクリプトが割り当てられていません！");
         }
+        else
+        {
+            StartCoroutine(LateStart());
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // プレイヤーのHPをチェックしてゲームオーバー処理を行う
         if (player != null && player.Hp <= 0 && !isGameOver)
         {
             GameOver();
         }
 
-        // 現在のSaturationを目標値にスムーズに近づける
         if (colorGrading != null)
         {
             colorGrading.saturation.value = Mathf.Lerp(colorGrading.saturation.value, targetSaturation, Time.deltaTime * fadeSpeed);
         }
     }
 
-    // ゲームオーバー処理
+    IEnumerator LateStart()
+    {
+        yield return new WaitForEndOfFrame();
+        playerAnimator = player.Animator;
+
+        if (playerAnimator == null)
+        {
+            Debug.LogError("PlayerにAnimatorが割り当てられていません！");
+        }
+    }
+
     private void GameOver()
     {
         isGameOver = true;
-
         targetSaturation = (targetSaturation == 0) ? -100 : 0;
 
-        // ゲームオーバーUIを表示
         if (gameOverText != null)
         {
             gameOverText.gameObject.SetActive(true);
             gameOverText.text = "GAME OVER";
+        }
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("GameOver");
+        }
+
+        // プレイヤーの動きを停止
+        player.enabled = false;
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
         }
     }
 }

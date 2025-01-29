@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3301759098386263484}
   - component: {fileID: 5940416589280577032}
   m_Layer: 0
-  m_Name: PostProcessVolume
+  m_Name: GameOverPP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

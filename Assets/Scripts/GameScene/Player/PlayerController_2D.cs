@@ -96,6 +96,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     private Vector3 _preGroundPos = new Vector3();
     int _selectAnimalNum = -1;
     Animator _animator;
+
+    public Animator Animator { get { return _animator; } }
+
     [SerializeField]
     SelectUIScript _selectUI;
     [SerializeField]
@@ -153,7 +156,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     // ゲームオーバースクリプトを参照
     public GameOverScript gameOverScript;
 
-    
+    private float s;
+    private float v;
+
 
     // 有効化
     private void OnEnable()
@@ -257,6 +262,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
         moveCameraX = 1;
         moveCameraY = 1;
+
     }
 
     void Update()
@@ -482,13 +488,10 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-
             _jumpNum = 0;
             _jumpNow = false;
             _isFly = false;
             _isGround = true;
-
-
         }
     }
     void OnTriggerEnter(Collider other)
@@ -501,7 +504,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 _rb.drag = _waterDrag;
             }
         }
-        else if (other.CompareTag("Death"))
+        if (other.CompareTag("Death"))
         {
             Death();
         }
@@ -787,7 +790,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     public void Damage(int value)
     {
         Hp -= value;
-        StartCoroutine("CameraShake");
+        StartCoroutine(CameraShake());
     }
 
     public void Death()
@@ -802,8 +805,10 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             Debug.LogError("GameOverScriptが設定されていません！");
         }
 
-        // プレイヤーオブジェクトを破壊
-        Destroy(gameObject);
+        _movecamera = null;
+
+        //// プレイヤーオブジェクトを破壊
+        //Destroy(gameObject);
     }
 
     IEnumerator CameraShake()
