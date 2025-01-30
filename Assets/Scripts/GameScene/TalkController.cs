@@ -64,6 +64,12 @@ public class TalkController : MonoBehaviour
     [SerializeField,Header("ズーム速度")] private float _zoomObjSpeed; // カメラのズーム速度
     [SerializeField,Header("ズーム量")] private float _zoomValue; // カメラのズーム量
 
+    [SerializeField]
+    GameObject _gameUI;
+
+    [SerializeField, Header("会話終了時に実行したい関数")]
+    UnityEvent _finishEvent = new UnityEvent();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,6 +101,8 @@ public class TalkController : MonoBehaviour
                 {
                     _talkObjScript.IsIdle();//会話オブジェクトのアニメーションをアイドル状態にする
                     _cameraFollow2D.ZoomOut(); // カメラをズームアウトさせる
+                    _gameUI.SetActive(true);
+                    _finishEvent.Invoke();
                     Destroy(this.gameObject); // このオブジェクトを破棄する(会話シーンに入るのを1回にする)
                 }
             }
@@ -143,6 +151,7 @@ public class TalkController : MonoBehaviour
             _playerController_2D.InputActionDisable(); // プレイヤーの入力を無効にする
             _playerController_2D.MoveStop(_talkObj.position); // プレイヤーの移動を停止する
             _isPlayerHit = true; // プレイヤーがトリガーに触れたことを記録
+            _gameUI.SetActive(false);
         }
     }
 
