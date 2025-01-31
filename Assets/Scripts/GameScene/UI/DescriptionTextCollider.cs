@@ -39,4 +39,17 @@ public class DescriptionTextCollider : MonoBehaviour
             _descriptionText.enabled = false;
         }
     }
+
+    public void Enable(float _time)
+    {
+        _descriptionText.text = _text;
+        _descriptionText.enabled = true;
+
+        Invoke("UnEnable", _time);
+    }
+
+    void UnEnable()
+    {
+        _descriptionText.enabled = false;
+    }
 }
