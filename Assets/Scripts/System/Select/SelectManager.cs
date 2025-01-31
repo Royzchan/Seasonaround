@@ -6,8 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class SelectManager : MonoBehaviour
 {
-    [SerializeField]
-    string[] _seasonNames;
+    public enum SeasonEnum
+    {
+        [InspectorName("èt")]
+        Spring,
+        [InspectorName("âƒ")]
+        Summer,
+        [InspectorName("èH")]
+        Autumn,
+        [InspectorName("ì~")]
+        Winter
+    }
+    public static Dictionary<SeasonEnum, string> _seasonKeys =new()
+    {
+        {SeasonEnum.Spring, "Spring"},
+        {SeasonEnum.Summer, "Summer"},
+        {SeasonEnum.Autumn, "Autumn"},
+        {SeasonEnum.Winter, "Winter"}
+    };
+
     [SerializeField]
     Season[] _seasons;
     [SerializeField]
@@ -17,16 +34,18 @@ public class SelectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         _seasonDic = new Dictionary<string, Season>();
-        PlayerPrefs.SetInt(_seasonNames[0], 1);
-
-        for (int i = 0;i < _seasons.Length || i < _seasonNames.Length;++i)
+        PlayerPrefs.SetInt(_seasonKeys[SeasonEnum.Spring],1);
+        
+        for (int i = 0;i < _seasons.Length || i < _seasonKeys.Count;++i)
         {
-            _seasonDic.Add(_seasonNames[i],_seasons[i]);
+            
+            _seasonDic.Add(_seasonKeys[(SeasonEnum)i],_seasons[i]);
             //PlayerPrefsÇ©ÇÁéÛÇØéÊÇ¡ÇΩÇËÅAÇÁÇ∂ÇŒÇÒÇæÇË
-            if (PlayerPrefs.HasKey(_seasonNames[i]))
+            if (PlayerPrefs.HasKey(_seasonKeys[(SeasonEnum)i]))
             {
-                _seasons[i].IsActive = PlayerPrefs.GetInt(_seasonNames[i]) != 0;
+                _seasons[i].IsActive = PlayerPrefs.GetInt(_seasonKeys[(SeasonEnum)i]) != 0;
             }
             _seasons[i].SetUp();
         }
@@ -50,9 +69,9 @@ public class SelectManager : MonoBehaviour
         {
             for (int i = 0; i < _seasonDic.Count; ++i)
             {
-                if (GUI.Button(new Rect(15, 100 + i * 40, 100, 30), _seasonNames[i]))
+                if (GUI.Button(new Rect(15, 100 + i * 40, 100, 30), _seasonKeys[(SeasonEnum)i]))
                 {
-                    PlayerPrefs.SetInt(_seasonNames[i], 1);
+                    PlayerPrefs.SetInt(_seasonKeys[(SeasonEnum)i], 1);
                     SceneManager.LoadScene("SelectScene");
                 }
 
