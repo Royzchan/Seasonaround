@@ -334,7 +334,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             RaycastHit hit;
 
             // レイキャストを実行して、何かに当たったかを確認
-            if (Physics.Raycast(ray, out hit, 0.1f))
+            if (Physics.Raycast(ray, out hit, 0.2f))
             {
                 
                 //レイが敵に当たっていたら
@@ -348,7 +348,6 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 {
                     //敵を倒せる判定をfalseに
                     _canDefeatEnemy = false;
-                    Debug.Log(hit.collider.gameObject.name);
                     JumpReset();
                 }
                 else
