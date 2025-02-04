@@ -28,7 +28,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     //現在なんの動物かどうか
     private Animal _nowAnimal = Animal.Normal;
-
+    public Animal NowAnimal {  get { return _nowAnimal; } } 
     [SerializeField, Header("プレイヤーの移動速度")]
     private float _speed = 5.0f;
 
@@ -275,7 +275,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             //壁張り付き中は振りむかないように
             if (_rb.useGravity)
             {
-                transform.localScale = new Vector3(_inputValueX * Mathf.Abs(transform.localScale.x), 1, 1);
+                transform.localScale = new Vector3(_inputValueX * Mathf.Abs(transform.localScale.x),
+                    transform.localScale.y,
+                    transform.localScale.z);
             }
 
             if (!_isGrap)
@@ -327,13 +329,14 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         if (_jumpNow)
         {
             // Rayをプレイヤーの下方に飛ばす
-            Ray ray = new Ray(transform.position, -transform.up);
-
+            Ray ray = new Ray(_animalModels[(int)_nowAnimal].transform.position, -transform.up);
+            //Debug.DrawRay(transform.position, -transform.up * 0.01f, Color.yellow,0.1f);
             RaycastHit hit;
 
             // レイキャストを実行して、何かに当たったかを確認
-            if (Physics.Raycast(ray, out hit, 3f))
+            if (Physics.Raycast(ray, out hit, 0.1f))
             {
+                
                 //レイが敵に当たっていたら
                 if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
@@ -341,11 +344,12 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                     _canDefeatEnemy = true;
                 }
                 //違う何かに当たっていたら
-                else if (hit.collider.gameObject.CompareTag("Ground"))
+                else if (hit.collider.CompareTag("Ground"))
                 {
                     //敵を倒せる判定をfalseに
                     _canDefeatEnemy = false;
-                    _isGround = true;
+                    Debug.Log(hit.collider.gameObject.name);
+                    JumpReset();
                 }
                 else
                 {
@@ -486,13 +490,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            _jumpNum = 0;
-            _jumpNow = false;
-            _isFly = false;
-            _isGround = true;
-        }
+
     }
     void OnTriggerEnter(Collider other)
     {
@@ -557,6 +555,14 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             _selectUI.SetHitAnimal(_selectAnimal);
         }
 #endif
+    }
+
+    private void JumpReset()
+    {
+        _jumpNum = 0;
+        _jumpNow = false;
+        _isFly = false;
+        _isGround = true;
     }
     //ダメージ
     public void HitDamage()
