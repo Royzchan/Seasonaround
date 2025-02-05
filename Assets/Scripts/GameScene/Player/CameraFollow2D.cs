@@ -148,7 +148,7 @@ public class CameraFollow2D : MonoBehaviour
     public void ZoomOut()
     {
         if (!_isZoom) return; // ズーム中でない場合は処理を中断
-        
+
         //ズーム中ではない状態に変更
         _isZoom = false; // ズームフラグを解除
     }
@@ -198,28 +198,31 @@ public class CameraFollow2D : MonoBehaviour
         Vector3 directionX = new Vector3(_player.transform.position.x - _offset.x - transform.position.x, 0, 0).normalized; // X軸方向へのレイキャストの方向
         Vector3 directionY = new Vector3(0, _player.transform.position.y - _offset.y - transform.position.y, 0).normalized; // Y軸方向へのレイキャストの方向
 
-        // 移動方向にRayを飛ばして障害物を検知
-        //X
         Ray rayX = new Ray(transform.position, directionX); // X軸方向へのレイを生成
-        // 障害物がなければ移動
-        if (!Physics.Raycast(rayX, _rayLength)) // レイが障害物に当たっていない場合
+        RaycastHit hitX;
+        if (Physics.Raycast(rayX, out hitX, _rayLength)) // レイが障害物に当たった場合
+        {
+            _isFollowX = false; // X軸方向への追従を禁止
+            Debug.Log("X軸で衝突したオブジェクト: " + hitX.collider.gameObject.name);
+        }
+        else
         {
             _isFollowX = true; // X軸方向への追従を許可
         }
-        else // レイが障害物に当たった場合
-        {
-            _isFollowX = false; // X軸方向への追従を禁止
-        }
-        //Y
+
         Ray rayY = new Ray(transform.position, directionY); // Y軸方向へのレイを生成
-        // 障害物がなければ移動
-        if (!Physics.Raycast(rayY, _rayLength)) // レイが障害物に当たっていない場合
+        RaycastHit hitY;
+        if (Physics.Raycast(rayY, out hitY, _rayLength)) // レイが障害物に当たった場合
+        {
+            if (hitY.collider.gameObject.CompareTag("Water"))
+            {
+                return;
+            }
+            _isFollowY = false; // Y軸方向への追従を禁止
+        }
+        else
         {
             _isFollowY = true; // Y軸方向への追従を許可
-        }
-        else // レイが障害物に当たった場合
-        {
-            _isFollowY = false; // Y軸方向への追従を禁止
         }
     }
 }
