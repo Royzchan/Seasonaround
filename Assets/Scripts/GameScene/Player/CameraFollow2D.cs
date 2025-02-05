@@ -203,7 +203,6 @@ public class CameraFollow2D : MonoBehaviour
         if (Physics.Raycast(rayX, out hitX, _rayLength)) // レイが障害物に当たった場合
         {
             _isFollowX = false; // X軸方向への追従を禁止
-            Debug.Log("X軸で衝突したオブジェクト: " + hitX.collider.gameObject.name);
         }
         else
         {
