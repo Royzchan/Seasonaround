@@ -326,44 +326,46 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             _joint = null;
         }
         //ジャンプ中だったら
-        if (_jumpNow)
-        {
-            // Rayをプレイヤーの下方に飛ばす
-            Ray ray = new Ray(_animalModels[(int)_nowAnimal].transform.position, -transform.up);
-            //Debug.DrawRay(transform.position, -transform.up * 0.01f, Color.yellow,0.1f);
-            RaycastHit hit;
+        //if (_jumpNow)
+        //{
+            
+        //}
 
-            // レイキャストを実行して、何かに当たったかを確認
-            if (Physics.Raycast(ray, out hit, 0.2f))
+        // Rayをプレイヤーの下方に飛ばす
+        Ray ray = new Ray(_animalModels[(int)_nowAnimal].transform.position, -transform.up);
+        //Debug.DrawRay(transform.position, -transform.up * 0.01f, Color.yellow,0.1f);
+        RaycastHit hit;
+
+        // レイキャストを実行して、何かに当たったかを確認
+        if (Physics.Raycast(ray, out hit, 0.2f))
+        {
+
+            //レイが敵に当たっていたら
+            if (hit.collider.gameObject.CompareTag("Enemy"))
             {
-                
-                //レイが敵に当たっていたら
-                if (hit.collider.gameObject.CompareTag("Enemy"))
-                {
-                    //敵を倒せるように
-                    _canDefeatEnemy = true;
-                }
-                //違う何かに当たっていたら
-                else if (hit.collider.CompareTag("Ground"))
-                {
-                    //敵を倒せる判定をfalseに
-                    _canDefeatEnemy = false;
-                    JumpReset();
-                }
-                else
-                {
-                    //敵を倒せる判定をfalseに
-                    _canDefeatEnemy = false;
-                }
+                //敵を倒せるように
+                _canDefeatEnemy = true;
             }
-            //何にも当たっていなかったら
+            //違う何かに当たっていたら
+            else if (hit.collider.CompareTag("Ground"))
+            {
+                //敵を倒せる判定をfalseに
+                _canDefeatEnemy = false;
+                JumpReset();
+            }
             else
             {
                 //敵を倒せる判定をfalseに
                 _canDefeatEnemy = false;
             }
-            //Debug.DrawRay(ray.origin, ray.direction, UnityEngine.Color.red, 5.0f);
         }
+        //何にも当たっていなかったら
+        else
+        {
+            //敵を倒せる判定をfalseに
+            _canDefeatEnemy = false;
+        }
+        //Debug.DrawRay(ray.origin, ray.direction, UnityEngine.Color.red, 5.0f);
 
         if (_canChangeAnimal)
         {
