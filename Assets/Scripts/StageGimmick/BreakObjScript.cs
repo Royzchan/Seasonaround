@@ -9,7 +9,7 @@ public class BreakObjScript : MonoBehaviour
     [SerializeField, Header("ìßñæ(è¡ñ≈)Ç…Ç»ÇÈÇ‹Ç≈ÇÃéûä‘")]
     float _fadeTime;
     [SerializeField,Header("êÅÇ´îÚÇ‘ê®Ç¢")]
-    int _burstPower = 3;
+    float _burstPower = 3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +31,8 @@ public class BreakObjScript : MonoBehaviour
     }
     public void DestroyObject()
     {
-        var random = new System.Random();
+
+        
         var min = -_burstPower;
         var max = _burstPower;
         gameObject.GetComponentsInChildren<Rigidbody>().ToList().ForEach(r => {
@@ -43,7 +44,8 @@ public class BreakObjScript : MonoBehaviour
             //    a.material.DOFade(0f, _fadeTime);
             //}
             r.gameObject.AddComponent<AutoDestroy>()._time = _fadeTime;
-            var vect = new Vector3(random.Next(min, max), random.Next(0, max), random.Next(min, max));
+            r.gameObject.GetComponent<Collider>().enabled = false;
+            var vect = new Vector3(Random.Range(min, max), Random.Range(0, max), Random.Range(min, max));
             r.AddForce(vect, ForceMode.Impulse);
             r.AddTorque(vect, ForceMode.Impulse);
         });
