@@ -210,6 +210,7 @@ public class CameraFollow2D : MonoBehaviour
         }
 
         Ray rayY = new Ray(transform.position, directionY); // Y²•ûŒü‚Ö‚ÌƒŒƒC‚ğ¶¬
+        Debug.DrawRay(transform.position, directionY, Color.red, 1.0f);
         RaycastHit hitY;
         if (Physics.Raycast(rayY, out hitY, _rayLength)) // ƒŒƒC‚ªáŠQ•¨‚É“–‚½‚Á‚½ê‡
         {
@@ -218,6 +219,7 @@ public class CameraFollow2D : MonoBehaviour
                 return;
             }
             _isFollowY = false; // Y²•ûŒü‚Ö‚Ì’Ç]‚ğ‹Ö~
+            Debug.Log(hitY.collider.gameObject.name);
         }
         else
         {
