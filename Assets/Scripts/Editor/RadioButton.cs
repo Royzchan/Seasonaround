@@ -1,34 +1,61 @@
 using UnityEditor;
 using UnityEngine;
+using System;
+using System.Reflection;
 
-[CustomEditor(typeof(GoalScript))]
-public class RadioButtonEditor : Editor
+/// <summary>
+/// 汎用的なラジオボタンEditor。Enum型のフィールドを自動でラジオボタン化する。
+/// </summary>
+[CustomEditor(typeof(GoalScript), true)]
+public class GenericRadioButtonEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        // 対象のスクリプトを取得
-        GoalScript script = (GoalScript)target;
+        serializedObject.Update(); // インスペクターの最新状態を取得
 
-        // Enumの値を取得
-        SelectManager.SeasonEnum selected = script.season;
+        SerializedProperty prop = serializedObject.GetIterator();
+        bool enterChildren = true;
 
-        // GUIでラジオボタン風に描画
-        EditorGUILayout.LabelField("解放するSeason");
-
-        foreach (SelectManager.SeasonEnum name in System.Enum.GetValues(typeof(SelectManager.SeasonEnum)))
+        while (prop.NextVisible(enterChildren))
         {
-            if (GUILayout.Toggle(selected == name, name.ToString(), "Radio"))
+            enterChildren = false;
+
+            // Enum型のフィールドをラジオボタン化
+            if (prop.propertyType == SerializedPropertyType.Enum)
             {
-                selected = name;
+                DrawEnumAsRadioButtons(prop);
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(prop, true);
             }
         }
 
-        // 変更があった場合は保存
-        if (selected != script.season)
+        serializedObject.ApplyModifiedProperties(); // 変更を適用
+    }
+
+    /// <summary>
+    /// Enum型のプロパティをラジオボタンとして表示する
+    /// </summary>
+    private void DrawEnumAsRadioButtons(SerializedProperty prop)
+    {
+        EditorGUILayout.LabelField(ObjectNames.NicifyVariableName(prop.name)); // フィールド名を表示
+
+        EditorGUI.BeginChangeCheck();
+        int selectedIndex = prop.enumValueIndex;
+        string[] enumNames = prop.enumNames;
+
+        for (int i = 0; i < enumNames.Length; i++)
         {
-            Undo.RecordObject(script, "Change Option");
-            script.season = selected;
-            EditorUtility.SetDirty(script);
+            if (GUILayout.Toggle(selectedIndex == i, enumNames[i], "Radio"))
+            {
+                selectedIndex = i;
+            }
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            prop.enumValueIndex = selectedIndex;
         }
     }
 }

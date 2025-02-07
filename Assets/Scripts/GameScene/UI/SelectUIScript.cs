@@ -25,12 +25,15 @@ public class SelectUIScript : MonoBehaviour
         }
         gameObject.SetActive(false);
         _uiCamera.orthographicSize = _cameraSize * transform.parent.localScale.y;
+        
     }
 
     private void OnEnable()
     {
-        
+        _uiCamera.orthographicSize = _cameraSize * transform.parent.localScale.y;
     }
+
+    
     // Update is called once per frame
     void Update()
     {
