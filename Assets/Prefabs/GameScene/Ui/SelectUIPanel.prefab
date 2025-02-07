@@ -256,7 +256,7 @@ MonoBehaviour:
   - {fileID: 4689866060307442210}
   - {fileID: 2951424096700151993}
   - {fileID: 2408130163450893398}
-  - {fileID: 2185843890236017424}
+  - {fileID: 2881415939492105828}
   _cameraSize: 110
   _uiCamera: {fileID: 0}
 --- !u!1 &6293766241208362424
@@ -1070,6 +1070,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28d0a30d6aed6fc4c8ca473413f70c24, type: 3}
+--- !u!1 &2881415939492105828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 873531700701352353, guid: 28d0a30d6aed6fc4c8ca473413f70c24, type: 3}
+  m_PrefabInstance: {fileID: 3162565925157969861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6315175523573436168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8955322500898459853, guid: 28d0a30d6aed6fc4c8ca473413f70c24, type: 3}
