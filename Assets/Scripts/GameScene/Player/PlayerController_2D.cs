@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
@@ -122,6 +123,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     [SerializeField, Header("横移動のキーコン")]
     private InputAction _moveXAction;
 
+    [SerializeField, Header("↓入力のキーコン")]
+    private InputAction _underAction;
+
     [SerializeField, Header("ジャンプのキーコン")]
     private InputAction _jumpAction;
 
@@ -153,6 +157,11 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     [SerializeField]
     private Vector3 _cameraDistance = new Vector3(0f, 0f, 0f);
 
+    [SerializeField, Header("下攻撃用のタイムライン")]
+    private TimelineAsset _underAttackTimeline;
+
+    [SerializeField, Header("横攻撃用のタイムライン")]
+    private TimelineAsset _sideAttackTimeline;
     // ゲームオーバースクリプトを参照
     public GameOverScript gameOverScript;
 
@@ -183,6 +192,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         _cursorRightAction?.Enable();
         _cursorDownAction?.Enable();
         _cursorLeftAction?.Enable();
+        _underAction?.Enable();
     }
 
     public void InputActionDisable()
@@ -196,6 +206,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         _cursorRightAction?.Disable();
         _cursorDownAction?.Disable();
         _cursorLeftAction?.Disable();
+        _underAction?.Disable();
     }
 
     public void MoveStop(Vector3 zoomObjPos)
@@ -627,7 +638,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         {
             timer += Time.deltaTime;
             //deltaTimeの分待機(この部分・・・なんか変・・・)
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
             grapPos = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
             //移動
             transform.position = Vector3.Lerp(prePos, grapPos, timer / 0.8f);
@@ -679,7 +690,16 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             //ゴリラ
             case Animal.Colobus:
                 //_animator.Play("Attack");
-                _animalModels[(int)Animal.Colobus].GetComponent<PlayableDirector>().Play();
+                var playable = _animalModels[(int)Animal.Colobus].GetComponent<PlayableDirector>();
+                if (_underAction.IsPressed())
+                {
+                    playable.playableAsset = _underAttackTimeline;
+                }
+                else
+                {
+                    playable.playableAsset = _sideAttackTimeline;
+                }
+                playable.Play();
                 break;
 
             //トカゲ
