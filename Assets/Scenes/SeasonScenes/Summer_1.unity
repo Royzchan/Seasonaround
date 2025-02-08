@@ -28480,6 +28480,30 @@ PrefabInstance:
       propertyPath: _finishEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1213959502}
+    - target: {fileID: 2404998260409239039, guid: 96b57e07794c61545b98706505b114e1, type: 3}
+      propertyPath: _animationSettings.Array.data[0]._animationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 937873336}
+    - target: {fileID: 2404998260409239039, guid: 96b57e07794c61545b98706505b114e1, type: 3}
+      propertyPath: _animationSettings.Array.data[0]._animationEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 937873336}
+    - target: {fileID: 2404998260409239039, guid: 96b57e07794c61545b98706505b114e1, type: 3}
+      propertyPath: _animationSettings.Array.data[1]._animationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 937873336}
+    - target: {fileID: 2404998260409239039, guid: 96b57e07794c61545b98706505b114e1, type: 3}
+      propertyPath: _animationSettings.Array.data[2]._animationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 937873336}
+    - target: {fileID: 2404998260409239039, guid: 96b57e07794c61545b98706505b114e1, type: 3}
+      propertyPath: _animationSettings.Array.data[0]._animationEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: IsSmallJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404998260409239039, guid: 96b57e07794c61545b98706505b114e1, type: 3}
+      propertyPath: _animationSettings.Array.data[1]._animationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: IsQuestion
+      objectReference: {fileID: 0}
     - target: {fileID: 4245761940591486294, guid: 96b57e07794c61545b98706505b114e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 64.65
