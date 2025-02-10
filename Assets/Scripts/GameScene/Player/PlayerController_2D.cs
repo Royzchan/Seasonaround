@@ -649,8 +649,8 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             if (!_animalAbilityAction.IsPressed())
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
-                _rb.useGravity = true;
                 _isMoveGrap = false;
+                _rb.isKinematic = false;
                 _isGrap = false;
                 break;
             }
