@@ -326,21 +326,21 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 _rb.AddForce(new Vector3(0f, _jumpPower, 0f), ForceMode.Impulse);
             }
         }
-
         //動物の固有能力のボタンが押されていたら
         if (_animalAbilityAction.IsPressed())
         {
             //動物の固有能力を使う
             AnimalAction();
         }
-        if (_animalAbilityAction.WasReleasedThisFrame())
+        if(_animalAbilityAction.WasReleasedThisFrame())
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
             _rb.useGravity = true;
             _isGrap = false;
             Destroy(_joint);
-            _joint = null;
+            //_joint = null;
         }
+        
         //ジャンプ中だったら
         //if (_jumpNow)
         //{
@@ -646,6 +646,14 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         //距離が0.3f,又は時間が0.8fをすぎるまで繰り返す
         while (true)
         {
+            if (!_animalAbilityAction.IsPressed())
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
+                _rb.useGravity = true;
+                _isMoveGrap = false;
+                _isGrap = false;
+                break;
+            }
             timer += Time.deltaTime;
             //deltaTimeの分待機(この部分・・・なんか変・・・)
             yield return null;
@@ -693,6 +701,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 {
                     //transform.position = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
                     _isGrap = true;
+                    
                     StartCoroutine(MoveGrapPosition());
                 }
                 else if (_joint != null && _grapData != null)
