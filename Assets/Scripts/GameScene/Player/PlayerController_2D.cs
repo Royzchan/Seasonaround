@@ -291,13 +291,18 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                     transform.localScale.z);
             }
 
-            if (!_isGrap)
-            {
-                _animator.Play("Walk");
-            }
+            
 
         }
 
+        if (_rb.velocity.y < -0.1f)
+        {
+            _animator.Play("Fly");
+        }
+        else if(_inputValueX != 0)
+        {
+            _animator.Play("Walk");
+        }
         //ジャンプのボタンが押されたら
         if (_jumpAction.WasPressedThisFrame())
         {
@@ -406,6 +411,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             }
             DebugAddHitAnimal(_selectAnimalNum);
         }
+
+        
+
         //変身ボタンを押したとき(水中では変身不可)
         if (_changeAction.IsPressed())
         {
@@ -416,6 +424,8 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 _selectUI.gameObject.SetActive(true);
             }
         }
+
+    
         //離したとき
         else if (_canChangeAnimal)
         {
@@ -629,7 +639,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         _isMoveGrap = true;
         _rb.isKinematic = true;
         //空中で一旦静止(演出、いらない気がしないでもない)
-        yield return new WaitForSeconds(0.15f);
+        //yield return new WaitForSeconds(0.15f);
         Vector3 prePos = transform.position;
         Vector3 grapPos = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
         float timer = 0f;
@@ -652,9 +662,13 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 break;
             }
         }
-        //animation終了
-        _isMoveGrap = false;
-        CreateGrapJoint();
+        if (_animalAbilityAction.IsPressed())
+        {
+            //animation終了
+            _isMoveGrap = false;
+            CreateGrapJoint();
+        }
+        
     }
 
     void CreateGrapJoint()
@@ -662,7 +676,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         if (_grapData != null)
         {
             _joint = gameObject.AddComponent<HingeJoint>();
-            _joint.axis = new Vector3(0, 0, 1f);
+            _joint.axis = new Vector3(0, 0,0.2f);
             _joint.connectedBody = _grapData.gameObject.GetComponent<Rigidbody>();
         }
 

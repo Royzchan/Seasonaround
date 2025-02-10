@@ -7585,6 +7585,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 523860081394211607, guid: 9d9016a93e2afb14993f9ab42254fc2b, type: 3}
   m_PrefabInstance: {fileID: 504358493}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &505256578 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6193861831625770729, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+  m_PrefabInstance: {fileID: 607858798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &509696364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9973,6 +9978,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4747445009782375390, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+      propertyPath: _animals.Array.data[3]
+      value: 
+      objectReference: {fileID: 505256578}
     - target: {fileID: 4951966746260196800, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -10069,7 +10078,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6621043887875170965, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6621043887875170965, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4951966746260196800, guid: 8793610bed6dc33438735f572f0a944c, type: 3}
