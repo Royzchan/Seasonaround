@@ -202,6 +202,10 @@ public class CameraFollow2D : MonoBehaviour
         RaycastHit hitX;
         if (Physics.Raycast(rayX, out hitX, _rayLength)) // ƒŒƒC‚ªáŠQ•¨‚É“–‚½‚Á‚½ê‡
         {
+            if (hitX.collider.gameObject.CompareTag("Water"))
+            {
+                return;
+            }
             _isFollowX = false; // X²•ûŒü‚Ö‚Ì’Ç]‚ğ‹Ö~
         }
         else
