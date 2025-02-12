@@ -62,6 +62,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4498508779aac4d998bc2af3156cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _arrowImage: {fileID: 0}
+  texts: []
+  _leftAction:
+    m_Name: Left
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: fd22dcc8-9dca-4a2e-bb3c-b43e05c2072c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 86347dbc-1f1e-44ee-9223-3624e81d339b
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Left
+      m_Flags: 0
+    m_Flags: 0
+  _RightAction:
+    m_Name: Right
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 57bddb91-30e5-4789-9269-b584fabbdc5e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 4ca16c9b-2dd0-484f-a371-c2e768818ae5
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Right
+      m_Flags: 0
+    m_Flags: 0
+  _selectAction:
+    m_Name: Select
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 66b2e897-4183-4234-8c60-b220142f8807
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f90aa5dd-7a36-4ddd-b584-6eb2865c1a6f
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Select
+      m_Flags: 0
+    - m_Name: 
+      m_Id: b9ef2a7f-2d97-4eb3-bd63-b3cea2e135d4
+      m_Path: <Keyboard>/enter
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Select
+      m_Flags: 0
+    m_Flags: 0
+  backSelectText: {fileID: 0}
+  retryText: {fileID: 0}
   postProcessVolume: {fileID: 3913985712488935009}
   player: {fileID: 0}
   gameOverText: {fileID: 0}
