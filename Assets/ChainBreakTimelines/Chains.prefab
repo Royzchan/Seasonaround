@@ -115,8 +115,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5679781144210269621}
-  - component: {fileID: 6402767981569104690}
-  - component: {fileID: 843421655810245512}
   m_Layer: 0
   m_Name: summerChain
   m_TagString: Untagged
@@ -141,48 +139,6 @@ Transform:
   - {fileID: 2750448940557247393}
   m_Father: {fileID: 2565841026087487669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6402767981569104690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858407612836838204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 043375d77b605a642a8f4d7bb7162f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &843421655810245512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858407612836838204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 36358bc2bf97b6742b5af125cce3271e, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6402767981569104690}
-          m_TargetAssemblyTypeName: EnableChain, Assembly-CSharp
-          m_MethodName: ChainEnable
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1468735038709992674
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,8 +448,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8287078286081238676}
-  - component: {fileID: 116000804138805784}
-  - component: {fileID: 1966486019051213926}
   m_Layer: 0
   m_Name: autumnChain
   m_TagString: Untagged
@@ -518,48 +472,6 @@ Transform:
   - {fileID: 6204249363725900742}
   m_Father: {fileID: 2565841026087487669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &116000804138805784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2926878178324012897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 043375d77b605a642a8f4d7bb7162f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1966486019051213926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2926878178324012897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 36358bc2bf97b6742b5af125cce3271e, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 116000804138805784}
-          m_TargetAssemblyTypeName: EnableChain, Assembly-CSharp
-          m_MethodName: ChainEnable
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &4196339579281273101
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,8 +693,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2588565955194783520}
-  - component: {fileID: 4971219884098271774}
-  - component: {fileID: 2044039247151219057}
   m_Layer: 0
   m_Name: springChain
   m_TagString: Untagged
@@ -807,48 +717,6 @@ Transform:
   - {fileID: 4431842483314901794}
   m_Father: {fileID: 2565841026087487669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4971219884098271774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4958376005498166456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 36358bc2bf97b6742b5af125cce3271e, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2044039247151219057}
-          m_TargetAssemblyTypeName: EnableChain, Assembly-CSharp
-          m_MethodName: ChainEnable
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &2044039247151219057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4958376005498166456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 043375d77b605a642a8f4d7bb7162f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6094615800252432618
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,8 +832,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3495707912618453020}
-  - component: {fileID: 6555487962472073154}
-  - component: {fileID: 7902556451392267608}
   m_Layer: 0
   m_Name: winterChain
   m_TagString: Untagged
@@ -990,48 +856,6 @@ Transform:
   - {fileID: 8586587672719882864}
   m_Father: {fileID: 2565841026087487669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6555487962472073154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6326400765490657693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 043375d77b605a642a8f4d7bb7162f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7902556451392267608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6326400765490657693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 36358bc2bf97b6742b5af125cce3271e, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6555487962472073154}
-          m_TargetAssemblyTypeName: EnableChain, Assembly-CSharp
-          m_MethodName: ChainEnable
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &7844249273622458894
 GameObject:
   m_ObjectHideFlags: 0

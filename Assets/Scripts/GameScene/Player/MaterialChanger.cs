@@ -1,5 +1,6 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MaterialChanger : MonoBehaviour
 {
@@ -15,13 +16,13 @@ public class MaterialChanger : MonoBehaviour
     void Start()
     {
         // Rendererコンポーネントを取得
-        
+
         if (characterRenderer == null)
         {
             Debug.LogError("Rendererが見つかりません。オブジェクトを確認してください！");
         }
 
-        
+
         // 初期マテリアルを設定
         SetMaterial(defaultMaterial);
     }
@@ -51,4 +52,5 @@ public class MaterialChanger : MonoBehaviour
     {
         SetMaterial(defaultMaterial);
     }
+
 }
