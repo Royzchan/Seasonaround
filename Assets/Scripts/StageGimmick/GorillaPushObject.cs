@@ -31,6 +31,10 @@ public class GorillaPushObject : MonoBehaviour
                 transform.position = _prePos;
             }
        }
+       else if(collision.gameObject.CompareTag("Enemy"))
+       {
+            transform.position = _prePos;
+       }
     }
 
 }
