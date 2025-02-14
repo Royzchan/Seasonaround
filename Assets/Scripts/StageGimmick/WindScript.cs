@@ -11,6 +11,7 @@ public class WindScript : MonoBehaviour
     ISwitch _switch;
     PlayerController_2D _pc;
     bool _isActive = true;
+    Collider _collider;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,7 @@ public class WindScript : MonoBehaviour
                 Debug.LogError(name + "に不正なスイッチが入っています");
             }
         }
+        _collider = GetComponent<Collider>();
         _pc = FindAnyObjectByType<PlayerController_2D>();
     }
 
@@ -41,7 +43,8 @@ public class WindScript : MonoBehaviour
         {
             //スイッチの出力を_isActiveに
             _isActive = !_switch.OnOffCheck();
-            Debug.Log(!_switch.OnOffCheck());
+            _collider.enabled = _isActive;
+
         }
     }
 
