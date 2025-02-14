@@ -73,6 +73,10 @@ public class RushEnemy : MonoBehaviour
     void GoAttack()
     {
         isRushing = true;
+
+        // 突進方向を決定（プレイヤーの位置を基準）
+        rushDirectionX = player.transform.position.x > transform.position.x ? 1f : -1f;
+
         print("突進開始");
     }
 
@@ -137,8 +141,6 @@ public class RushEnemy : MonoBehaviour
             // プレイヤーが後ろに少し下がる
             Vector3 direction = (player.transform.position - transform.position).normalized;
             player.transform.position += direction * _knockbackPower * Time.deltaTime;
-
-            print("突進停止（プレイヤーと衝突）");
         }
     }
 }

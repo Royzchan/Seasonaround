@@ -13,6 +13,7 @@ TagManager:
   - Rock
   - Goal
   - Death
+  - SnowBall
   layers:
   - Default
   - TransparentFX
