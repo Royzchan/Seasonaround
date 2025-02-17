@@ -1226,7 +1226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8703165841186682002}
   - component: {fileID: 8477182422633200908}
-  - component: {fileID: 6597220864540918449}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -1324,27 +1323,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.012388031, y: 0, z: 0.0015562545}
     m_Extent: {x: 0.0153516615, y: 0.035812914, z: 0.010000499}
   m_DirtyAABB: 0
---- !u!135 &6597220864540918449
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8103250501688877645}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.0094535425
-  m_Center: {x: -1.5551788e-17, y: 0.007226696, z: 0.0011392138}
 --- !u!1 &8104899023245578114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,6 +1366,7 @@ GameObject:
   - component: {fileID: 5207680059892195128}
   - component: {fileID: 7032525913389290397}
   - component: {fileID: 1063172069834981410}
+  - component: {fileID: 3599831378792312539}
   m_Layer: 0
   m_Name: BatMonster
   m_TagString: Enemy
@@ -1452,6 +1431,27 @@ MonoBehaviour:
   bulletPosition: {fileID: 5304172982553052277}
   _moveRange: 0.5
   _moveSpeed: 2
+--- !u!135 &3599831378792312539
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105090815238195898}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.008817373
+  m_Center: {x: 0, y: 0.007104441, z: -0}
 --- !u!1 &8180310556339437879
 GameObject:
   m_ObjectHideFlags: 0
