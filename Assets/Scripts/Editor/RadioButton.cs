@@ -39,7 +39,7 @@ public class GenericRadioButtonEditor : Editor
     /// </summary>
     private void DrawEnumAsRadioButtons(SerializedProperty prop)
     {
-        EditorGUILayout.LabelField(ObjectNames.NicifyVariableName(prop.name)); // フィールド名を表示
+        EditorGUILayout.LabelField(ObjectNames.NicifyVariableName("解放先のシーン")); // フィールド名を表示
 
         EditorGUI.BeginChangeCheck();
         int selectedIndex = prop.enumValueIndex;

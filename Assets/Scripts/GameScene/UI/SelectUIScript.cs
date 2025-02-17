@@ -17,7 +17,7 @@ public class SelectUIScript : MonoBehaviour
     [SerializeField]
     Camera _uiCamera;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         foreach (var item in _animals)
         {
@@ -25,7 +25,7 @@ public class SelectUIScript : MonoBehaviour
         }
         gameObject.SetActive(false);
         _uiCamera.orthographicSize = _cameraSize * transform.parent.localScale.y;
-        
+
     }
 
     private void OnEnable()
