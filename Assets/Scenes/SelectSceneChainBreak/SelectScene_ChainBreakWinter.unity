@@ -277,7 +277,7 @@ MonoBehaviour:
   - {fileID: 138650935}
   - {fileID: 809596189}
   - {fileID: 1983498135}
-  _isDebug: 1
+  _isDebug: 0
 --- !u!4 &225562975
 Transform:
   m_ObjectHideFlags: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d391637fb8d7fc43ac01dc93a474583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
+  _player: {fileID: 2125320906}
   _distance: 5
   _rotationSpeed: 100
   _pitchLimits: {x: 5, y: 60}
@@ -895,7 +895,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456459120}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1456459122
 Camera:
   m_ObjectHideFlags: 0

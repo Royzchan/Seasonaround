@@ -85,24 +85,24 @@ public class FadeManager : MonoBehaviour
                 //Sceneが一つもない .
                 if (scenes.Count == 0)
                 {
-                    GUI.Box(new Rect(10, 10, 200, 50), "Fade Manager(Debug Mode)");
-                    GUI.Label(new Rect(20, 35, 180, 20), "Scene not found.");
+                    //GUI.Box(new Rect(10, 10, 200, 50), "Fade Manager(Debug Mode)");
+                    //GUI.Label(new Rect(20, 35, 180, 20), "Scene not found.");
                     return;
                 }
 
 
-                GUI.Box(new Rect(10, 10, 300, 50 + scenes.Count * 25), "Fade Manager(Debug Mode)");
-                GUI.Label(new Rect(20, 30, 280, 20), "Current Scene : " + SceneManager.GetActiveScene().name);
+                //GUI.Box(new Rect(10, 10, 300, 50 + scenes.Count * 25), "Fade Manager(Debug Mode)");
+                //GUI.Label(new Rect(20, 30, 280, 20), "Current Scene : " + SceneManager.GetActiveScene().name);
 
                 int i = 0;
                 foreach (string sceneName in scenes)
                 {
-                    if (GUI.Button(new Rect(20, 55 + i * 25, 100, 20), "Load Level"))
-                    {
-                        LoadScene(sceneName, 1.0f);
-                    }
-                    GUI.Label(new Rect(125, 55 + i * 25, 1000, 20), sceneName);
-                    i++;
+                    //if (GUI.Button(new Rect(20, 55 + i * 25, 100, 20), "Load Level"))
+                    //{
+                    //    LoadScene(sceneName, 1.0f);
+                    //}
+                    //GUI.Label(new Rect(125, 55 + i * 25, 1000, 20), sceneName);
+                    //i++;
                 }
             }
         }

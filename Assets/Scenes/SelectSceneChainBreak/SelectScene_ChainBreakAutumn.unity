@@ -196,7 +196,7 @@ MonoBehaviour:
   - {fileID: 138650935}
   - {fileID: 809596189}
   - {fileID: 1983498135}
-  _isDebug: 1
+  _isDebug: 0
 --- !u!4 &225562975
 Transform:
   m_ObjectHideFlags: 0
@@ -421,7 +421,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825036861}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &825036863
 Camera:
   m_ObjectHideFlags: 0
