@@ -26,10 +26,11 @@ public enum Animal
 public class PlayerController_2D : MonoBehaviour, IDamageable
 {
     private Rigidbody _rb;
+    private GameOverScript _gameOverScript;
 
     //現在なんの動物かどうか
     private Animal _nowAnimal = Animal.Normal;
-    public Animal NowAnimal {  get { return _nowAnimal; } } 
+    public Animal NowAnimal { get { return _nowAnimal; } }
     [SerializeField, Header("プレイヤーの移動速度")]
     private float _speed = 5.0f;
 
@@ -168,7 +169,6 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     private float s;
     private float v;
 
-
     // 有効化
     private void OnEnable()
     {
@@ -277,6 +277,11 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         _hitAnimals.Add(Animal.Normal);
         _selectUI.SetHitAnimal(3);
 
+        if (gameOverScript != null)
+        {
+            gameOverScript.enabled = false;
+        }
+
     }
 
     void Update()
@@ -294,7 +299,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                     transform.localScale.z);
             }
 
-            
+
 
         }
 
@@ -302,7 +307,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         {
             _animator.Play("Fly");
         }
-        else if(_inputValueX != 0)
+        else if (_inputValueX != 0)
         {
             _animator.Play("Walk");
         }
@@ -335,7 +340,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             //動物の固有能力を使う
             AnimalAction();
         }
-        if(_animalAbilityAction.WasReleasedThisFrame())
+        if (_animalAbilityAction.WasReleasedThisFrame())
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0f));
             _rb.useGravity = true;
@@ -343,18 +348,18 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             Destroy(_joint);
             //_joint = null;
         }
-        
+
         //ジャンプ中だったら
         //if (_jumpNow)
         //{
-            
+
         //}
 
         // Rayをプレイヤーの下方に飛ばす
         Ray ray = new Ray(_animalModels[(int)_nowAnimal].transform.position, -Vector3.up);
-       // Debug.DrawRay(_animalModels[(int)_nowAnimal].transform.position, -Vector3.up * 1f, Color.yellow,0.1f);
+        // Debug.DrawRay(_animalModels[(int)_nowAnimal].transform.position, -Vector3.up * 1f, Color.yellow,0.1f);
         RaycastHit hit;
-        
+
         // レイキャストを実行して、何かに当たったかを確認
         if (Physics.Raycast(ray, out hit, 0.5f))
         {
@@ -370,7 +375,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             {
                 //敵を倒せる判定をfalseに
                 _canDefeatEnemy = false;
-               // Debug.Log("hit");
+                // Debug.Log("hit");
                 JumpReset();
             }
             else
@@ -417,7 +422,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             DebugAddHitAnimal(_selectAnimalNum);
         }
 
-        
+
 
         //変身ボタンを押したとき(水中では変身不可)
         if (_changeAction.IsPressed())
@@ -430,7 +435,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             }
         }
 
-    
+
         //離したとき
         else if (_canChangeAnimal)
         {
@@ -521,7 +526,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     }
     void OnTriggerEnter(Collider other)
     {
-        
+
         if (other.CompareTag("Death"))
         {
             Death();
@@ -569,7 +574,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     private void OnCollisionExit(Collision collision)
     {
- 
+
     }
 
     void DebugAddHitAnimal(int _selectAnimal)
@@ -683,7 +688,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
             _isMoveGrap = false;
             CreateGrapJoint();
         }
-        
+
     }
 
     void CreateGrapJoint()
@@ -691,7 +696,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         if (_grapData != null)
         {
             _joint = gameObject.AddComponent<HingeJoint>();
-            _joint.axis = new Vector3(0, 0,0.2f);
+            _joint.axis = new Vector3(0, 0, 0.2f);
             _joint.connectedBody = _grapData.gameObject.GetComponent<Rigidbody>();
         }
 
@@ -708,7 +713,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 {
                     //transform.position = _grapData.transform.position + _grapData.transform.rotation * _grapData._grapPos;
                     _isGrap = true;
-                    
+
                     StartCoroutine(MoveGrapPosition());
                 }
                 else if (_joint != null && _grapData != null)
@@ -855,6 +860,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         // GameOverScriptを呼び出してゲームオーバー処理を実行
         if (gameOverScript != null)
         {
+            gameOverScript.enabled = true;
             gameOverScript.SendMessage("GameOver");
         }
         else
