@@ -60,8 +60,9 @@ public class GameOverScript : MonoBehaviour
         _selectAction?.Disable();
     }
 
-    void Start()
+    private void Awake()
     {
+
         if (postProcessVolume.profile.TryGetSettings(out ColorGrading cg))
         {
             colorGrading = cg;
