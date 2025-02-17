@@ -274,6 +274,9 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         moveCameraX = 1;
         moveCameraY = 1;
 
+        _hitAnimals.Add(Animal.Normal);
+        _selectUI.SetHitAnimal(3);
+
     }
 
     void Update()
@@ -348,12 +351,12 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         //}
 
         // Rayをプレイヤーの下方に飛ばす
-        Ray ray = new Ray(_animalModels[(int)_nowAnimal].transform.position, -transform.up);
-        //Debug.DrawRay(transform.position, -transform.up * 0.01f, Color.yellow,0.1f);
+        Ray ray = new Ray(_animalModels[(int)_nowAnimal].transform.position, -Vector3.up);
+       // Debug.DrawRay(_animalModels[(int)_nowAnimal].transform.position, -Vector3.up * 1f, Color.yellow,0.1f);
         RaycastHit hit;
-
+        
         // レイキャストを実行して、何かに当たったかを確認
-        if (Physics.Raycast(ray, out hit, 0.2f))
+        if (Physics.Raycast(ray, out hit, 0.5f))
         {
 
             //レイが敵に当たっていたら
@@ -363,16 +366,18 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
                 _canDefeatEnemy = true;
             }
             //違う何かに当たっていたら
-            else if (hit.collider.CompareTag("Ground"))
+            else if (hit.collider.gameObject.CompareTag("Ground"))
             {
                 //敵を倒せる判定をfalseに
                 _canDefeatEnemy = false;
+               // Debug.Log("hit");
                 JumpReset();
             }
             else
             {
                 //敵を倒せる判定をfalseに
                 _canDefeatEnemy = false;
+                _isGround = false;
             }
         }
         //何にも当たっていなかったら
@@ -516,19 +521,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Water"))
-        {
-            //トカゲでなければ溺れる
-            if (_nowAnimal == Animal.Gecko)
-            {
-                _isSwimming = true;
-                _rb.drag = _waterDrag;
-            }
-            else
-            {
-                Death();
-            }
-        }
+        
         if (other.CompareTag("Death"))
         {
             Death();
@@ -541,6 +534,19 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
         if (other.CompareTag("Grap") && _grapData == null)
         {
             _grapData = other.GetComponent<GrapGimmick>();
+        }
+        if (other.CompareTag("Water"))
+        {
+            //トカゲでなければ溺れる
+            if (_nowAnimal == Animal.Gecko)
+            {
+                _isSwimming = true;
+                _rb.drag = _waterDrag;
+            }
+            else
+            {
+                Death();
+            }
         }
     }
 
@@ -563,11 +569,7 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-
-            _isGround = false;
-        }
+ 
     }
 
     void DebugAddHitAnimal(int _selectAnimal)
