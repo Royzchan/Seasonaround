@@ -41,4 +41,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SelectScene_Anim.unity
     guid: 5ca297878daa85142a2c3a44902ff441
+  - enabled: 1
+    path: Assets/Scenes/SelectSceneChainBreak/SelectScene_ChainBreakAutumn.unity
+    guid: feabdb104a894b44b9bcb75125ede794
+  - enabled: 1
+    path: Assets/Scenes/SelectSceneChainBreak/SelectScene_ChainBreakSpring.unity
+    guid: d3857e078524f874b80cfe761bdc77f4
+  - enabled: 1
+    path: Assets/Scenes/SelectSceneChainBreak/SelectScene_ChainBreakSummer.unity
+    guid: 6f8f9448a70d4104690a3cfc0d969b83
+  - enabled: 1
+    path: Assets/Scenes/SelectSceneChainBreak/SelectScene_ChainBreakWinter.unity
+    guid: 9e828d7f90cc5da4d8a844ff538ed933
   m_configObjects: {}

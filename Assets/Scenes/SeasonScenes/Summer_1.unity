@@ -2141,6 +2141,10 @@ PrefabInstance:
       value: Tile_Corner_Foundation (8)
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -3869,6 +3873,10 @@ PrefabInstance:
       value: Tile_Center_Foundation (16)
       objectReference: {fileID: 0}
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -4700,6 +4708,10 @@ PrefabInstance:
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_Name
       value: Tile_Corner_Foundation (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
@@ -6263,6 +6275,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 23046172953622530, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 585978710836214950, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -6314,6 +6330,10 @@ PrefabInstance:
     - target: {fileID: 7499928335299373309, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
       propertyPath: season
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7499928335299373309, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
+      propertyPath: _sceneName
+      value: SelectScene_ChainBreakSummer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7820,7 +7840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4797232034769817574, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.51
+      value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 4797232034769817574, guid: 722ff82ae194ef3418471d1e9235e056, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7944,7 +7964,7 @@ GameObject:
   - component: {fileID: 534302018}
   m_Layer: 0
   m_Name: DedSpace (3)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7958,7 +7978,7 @@ Transform:
   m_GameObject: {fileID: 534302016}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.48, y: 13.41, z: 0}
+  m_LocalPosition: {x: 16.48, y: 15.4, z: 0}
   m_LocalScale: {x: 11.883698, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8321,6 +8341,10 @@ PrefabInstance:
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_Name
       value: Tile_Center_Foundation (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_IsActive
@@ -10838,6 +10862,10 @@ PrefabInstance:
       value: Tile_Corner_Foundation (12)
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -10997,7 +11025,7 @@ GameObject:
   - component: {fileID: 765771170}
   m_Layer: 0
   m_Name: DedSpace (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11011,7 +11039,7 @@ Transform:
   m_GameObject: {fileID: 765771168}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.72, y: 3.31, z: 0}
+  m_LocalPosition: {x: 13.72, y: 3.31, z: 1}
   m_LocalScale: {x: 0.1, y: 6.7475424, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11598,6 +11626,10 @@ PrefabInstance:
       value: Tile_Center_Foundation (14)
       objectReference: {fileID: 0}
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -11823,7 +11855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1069723373680298177, guid: 19a6fa03c670d9746aad851d0788c46b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.329998
+      value: 11.319996
       objectReference: {fileID: 0}
     - target: {fileID: 1069723373680298177, guid: 19a6fa03c670d9746aad851d0788c46b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12116,6 +12148,10 @@ PrefabInstance:
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_Name
       value: Tile_Center_Foundation (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_IsActive
@@ -13678,7 +13714,7 @@ GameObject:
   - component: {fileID: 979866008}
   m_Layer: 0
   m_Name: DedSpace (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13692,7 +13728,7 @@ Transform:
   m_GameObject: {fileID: 979866006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38.76, y: 3.31, z: 0}
+  m_LocalPosition: {x: 38.76, y: 3.31, z: 1}
   m_LocalScale: {x: 0.1, y: 13, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14498,6 +14534,10 @@ PrefabInstance:
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_Name
       value: Tile_Center_Foundation (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_IsActive
@@ -16422,6 +16462,10 @@ PrefabInstance:
       value: Tile_Corner_Foundation (13)
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -17316,7 +17360,7 @@ GameObject:
   - component: {fileID: 1222376692}
   m_Layer: 0
   m_Name: DedSpace
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17330,7 +17374,7 @@ Transform:
   m_GameObject: {fileID: 1222376690}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.78999996, y: -1.0499992, z: 0}
+  m_LocalPosition: {x: -0.78999996, y: -1.0499992, z: 1}
   m_LocalScale: {x: 19.598, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19436,6 +19480,10 @@ PrefabInstance:
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_Name
       value: Tile_Corner_Foundation (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
@@ -24043,6 +24091,10 @@ PrefabInstance:
       value: Tile_Corner_Foundation (7)
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -26828,7 +26880,7 @@ GameObject:
   - component: {fileID: 1868627827}
   m_Layer: 0
   m_Name: DedSpace (4)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26842,7 +26894,7 @@ Transform:
   m_GameObject: {fileID: 1868627825}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.48, y: -1.2, z: 0}
+  m_LocalPosition: {x: 16.48, y: -1.2, z: 1}
   m_LocalScale: {x: 6.5255766, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27961,6 +28013,10 @@ PrefabInstance:
       value: Tile_Center_Foundation (10)
       objectReference: {fileID: 0}
     - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -28712,6 +28768,10 @@ PrefabInstance:
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_Name
       value: Tile_Corner_Foundation (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString
@@ -30380,6 +30440,10 @@ PrefabInstance:
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_Name
       value: Tile_Corner_Foundation (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3521508693761493924, guid: 4d8d3aeb7b37cce489edce3815314b3b, type: 3}
       propertyPath: m_TagString

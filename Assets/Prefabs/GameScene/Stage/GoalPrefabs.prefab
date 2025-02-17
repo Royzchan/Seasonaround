@@ -513,5 +513,5 @@ MonoBehaviour:
   _clearText: {fileID: 6496054112878061599}
   _textZoomTime: 1
   _transition: {fileID: 3096047675583642163}
-  _sceneName: SelectScene
-  _seasonKey: 
+  _sceneName: SelectSceneChainBreak
+  season: 0
