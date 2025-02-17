@@ -6329,7 +6329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7499928335299373309, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
       propertyPath: season
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7499928335299373309, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
       propertyPath: _sceneName
@@ -13343,7 +13343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7595246415641008661, guid: 0ab7214eacef96142928c533588276ef, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.661
       objectReference: {fileID: 0}
     - target: {fileID: 7595246415641008661, guid: 0ab7214eacef96142928c533588276ef, type: 3}
       propertyPath: m_LocalRotation.w

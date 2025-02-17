@@ -6865,6 +6865,10 @@ PrefabInstance:
       value: GoalPrefabs
       objectReference: {fileID: 0}
     - target: {fileID: 7499928335299373309, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
+      propertyPath: season
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7499928335299373309, guid: 959a29c30f7b4d74facafe63cb54879f, type: 3}
       propertyPath: _sceneName
       value: SelectScene_ChainBreakSpring
       objectReference: {fileID: 0}
@@ -28848,7 +28852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2336360203295670610, guid: 3c9e86c4868feb2488e46a6d31a137f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.74
       objectReference: {fileID: 0}
     - target: {fileID: 2336360203295670610, guid: 3c9e86c4868feb2488e46a6d31a137f6, type: 3}
       propertyPath: m_LocalRotation.w
