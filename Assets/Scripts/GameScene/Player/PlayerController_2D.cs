@@ -518,10 +518,15 @@ public class PlayerController_2D : MonoBehaviour, IDamageable
     {
         if (other.CompareTag("Water"))
         {
+            //ƒgƒJƒQ‚Å‚È‚¯‚ê‚Î“M‚ê‚é
             if (_nowAnimal == Animal.Gecko)
             {
                 _isSwimming = true;
                 _rb.drag = _waterDrag;
+            }
+            else
+            {
+                Death();
             }
         }
         if (other.CompareTag("Death"))
