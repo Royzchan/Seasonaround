@@ -57,7 +57,7 @@ public class RushEnemy : MonoBehaviour
 
         if (!isRushing)
         {
-            if (transform.position.x > player.transform.position.x)
+            if (transform.position.x < player.transform.position.x)
             {
                 // X軸がプレイヤーより小さい場合、スケールを反転
                 transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
